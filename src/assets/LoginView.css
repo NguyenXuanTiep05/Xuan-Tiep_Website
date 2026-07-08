@@ -1,0 +1,51 @@
+.panel-left,
+.panel-right {
+  position: relative;
+}
+
+.panel-left::after,
+.panel-right::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: var(--highlight);
+  transform: scaleY(0);
+  transform-origin: center;
+}
+
+.panel-left::after { right: 0; }
+.panel-right::after { left: 0; }
+
+.panel-left.slide::after,
+.panel-right.slide::after {
+  animation: borderAppear 1s ease-in forwards;
+}
+
+.panel-left.slide {
+  animation: slideLeft 3s ease-in-out 1s both;
+}
+.panel-right.slide {
+  animation: slideRight 3s ease-in-out 1s both;
+}
+#login-form.slide {
+  animation: slideDown 1s ease-in-out both;
+}
+
+@keyframes borderAppear {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+@keyframes slideRight {
+  from { transform: translateX(0); }
+  to   { transform: translateX(150%); }
+}
+@keyframes slideLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-150%); }
+}
+@keyframes slideDown {
+  from { transform: translateY(0); }
+  to   { transform: translateY(250%); }
+}
