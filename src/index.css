@@ -6,6 +6,7 @@
 	--bg-light: hsl(257, 8%, 28%);  
 
  	--text: hsl(0,0%,95%);
+	--text-lighter: hsl(0, 0%, 85%);
  	--text-muted: hsl(0,0%,75%);
 
  	--highlight: hsl(0, 0%, 99%);

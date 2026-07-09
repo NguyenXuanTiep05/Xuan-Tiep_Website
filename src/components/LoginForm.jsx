@@ -65,11 +65,11 @@ const LoginForm = () => {
 				<h1 className='text-4xl font-bold'>Welcome Back</h1>
 				<h1 className='text-sm text-(--text-muted) mt-1 mb-7 font-semibold'>Sign in to continue</h1>
 				<div className='text-(--warning) mb-4 ml-4'>{error}</div>
-				<label className='text-md text-(--text-muted)'>Username:</label><br/>
+				<label className='text-md text-(--text-lighter)'>Username:</label><br/>
 				<input name='username' type='text' placeholder='Enter your username' 
 					className='mt-2 h-10 w-full bg-(--bg-light) rounded-lg px-3 text-(--text) placeholder-(--bg-light) outline-none border border-(--bg-light)  focus:border-(--text-muted) transition-colors duration-200'
 					onChange={(e) => setUsername(e.target.value)}/>
-				<label className='text-md text-(--text-muted)'>Password:</label><br/>
+				<label className='text-md text-(--text-lighter)'>Password:</label><br/>
 				<input name='password' type='password' placeholder='Enter your password' 
 					className='mt-2 h-10 w-full bg-(--bg-light) rounded-lg px-3 text-(--text) placeholder-(--bg-light) outline-none border border-(--bg-light)  focus:border-(--text-muted) transition-colors duration-200'
 					onChange={(e) => setPassword(e.target.value)}/>

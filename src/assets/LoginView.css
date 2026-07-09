@@ -1,6 +1,7 @@
 .panel-left,
 .panel-right {
   position: relative;
+
   will-change: transform;
   background: radial-gradient(
     100% 100% at var(--glow-x) var(--glow-y),
@@ -13,12 +14,12 @@
 
 .panel-left.slide {
   border-right: var(--border) 2px solid;
-  transition: border-right 0.25s ease-out;
+  transition: border-right 0.5s ease-out;
   animation: slideLeft 1s cubic-bezier(0.6, 0, 0.2, 1) 0.25s both;
 }
 .panel-right.slide {
   border-left: var(--border) 2px solid;
-  transition: border-left 0.25s ease-out;
+  transition: border-left 0.5s ease-out;
   animation: slideRight 1s cubic-bezier(0.6, 0, 0.2, 1) 0.25s both;
 }
 #login-form {
