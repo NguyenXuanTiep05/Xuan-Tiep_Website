@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import LoginView from "./view/LoginView";
 import DashboardView from "./view/DashboardView.jsx";
 
-import { useAuth } from "./hooks/UseAuth.jsx";
+import { useGlobal } from "./hooks/UseGlobal.jsx";
 
 import darkIcon from '/dashboardBlack.png'
 import lightIcon from '/dashboardWhite.png'
@@ -33,7 +33,7 @@ const useFavicon = () => {
 
 function App() {
   useFavicon()
-  const { isLogged } = useAuth();
+  const { isLogged } = useGlobal();
 
   if (isLogged === undefined) return null;
 

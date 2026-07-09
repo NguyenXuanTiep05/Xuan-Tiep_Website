@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useAuth } from "../hooks/UseAuth.jsx";
+import { useGlobal } from "../hooks/UseGlobal.jsx";
 
 import { useState } from 'react'
 
@@ -17,7 +17,7 @@ const SidePanelAnimation = () =>{
 
 
 const LoginForm = () => {
- 	const { setIsLogged } = useAuth();
+ 	const { setIsLogged } = useGlobal();
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 

@@ -4,12 +4,12 @@ import './index.css'
 import App from './App.jsx'
 
 
-import { AuthProvider } from "./context/AuthProvider";
+import { GlobalProvider } from "./context/GlobalProvider.jsx";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AuthProvider>
+    <GlobalProvider>
         <App />
-    </AuthProvider>
+    </GlobalProvider>
   </StrictMode>,
 )
