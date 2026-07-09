@@ -29,7 +29,7 @@ const LoginForm = () => {
 		SidePanelAnimation()
 		setTimeout(() => {
         	setIsLogged(true);
-		}, 3000);
+		}, 900);
 	    e.preventDefault();
 	    setError(null);
 
@@ -49,7 +49,7 @@ const LoginForm = () => {
 			SidePanelAnimation()
 			setTimeout(() => {
 	        	setIsLogged(true);
-			}, 3000);
+			}, 900);
 
 	    } catch (err) {
 			
@@ -58,19 +58,19 @@ const LoginForm = () => {
 	};
 
 	return (
-		<div id='login-form' className='animate z-10 absolute left-1/2 top-1/2  -translate-x-1/2 -translate-y-1/2 w-120 h-93 bg-(--secondary) rounded-2xl shadow-sm shadow-gray-300 p-6 text-(--text)'>
+		<div id='login-form' className='animate z-10 absolute left-1/2 top-1/2  -translate-x-1/2 -translate-y-1/2 w-120 h-93 bg-(--bg) rounded-2xl shadow-sm shadow-gray-300 p-6 text-(--text)'>
 
 			{/* <span className='text-red-700'>{error}</span> */}
 			<form onSubmit={handleLogin}>
 				<h1 className='text-4xl font-bold'>Log in</h1>
-				<hr className='mb-6 mt-3 border-(--highlight)'/>
+				<hr className='mb-6 mt-3 border-(--border)'/>
 				<label className='text-xl'>Username:</label><br/>
 				<input name='username' type='text' placeholder='Enter your username' 
-					className='mt-2 h-10 w-full bg-(--highlight) rounded-lg px-3 text-(--main) placeholder-(--tertiary) outline-none border border-(--tertiary) focus:border-(--text) transition-colors duration-200'
+					className='mt-2 h-10 w-full bg-(--highlight) rounded-lg px-3 text-(--bg-dark) placeholder-(--bg-light) outline-none border border-(--bg-light) focus:border-(--text) transition-colors duration-200'
 					onChange={(e) => setUsername(e.target.value)}/>
 				<label className='text-xl'>Password:</label><br/>
 				<input name='password' type='password' placeholder='Enter your password' 
-					className='mt-2 h-10 w-full bg-(--highlight) rounded-lg px-3 text-(--main) placeholder-(--tertiary) outline-none border border-(--tertiary) focus:border-(--text) transition-colors duration-200'
+					className='mt-2 h-10 w-full bg-(--highlight) rounded-lg px-3 text-(--bg-dark) placeholder-(--bg-light) outline-none border border-(--bg-light) focus:border-(--text) transition-colors duration-200'
 					onChange={(e) => setPassword(e.target.value)}/>
 
 				<div className=' flex w-100%'>

@@ -1,11 +1,15 @@
 @import 'tailwindcss';
 
 :root{
- --main: black;
- --text: white;
- --highlight: hsl(60, 100%, 99%);
- --secondary: hsl(257, 7%, 21%);
- --tertiary: hsl(270, 1%, 32%);
+ --bg-dark: black;
+ --bg: hsl(257, 7%, 21%);
+ --bg-light: hsl(270, 1%, 32%);
+
+ --text: hsl(0,0%,95%);
+ --text-muted: hsl(0,0%,75%);
+
+ --highlight: hsl(0, 0%, 99%);
+ --border: hsl(0, 0%, 90%);
 }
 
 
@@ -16,7 +20,7 @@
 body{
 	width: 100vw;
 	height: 100vh;
-	@apply bg-(--main) overflow-hidden;
+	@apply bg-(--bg-dark) overflow-hidden;
 }
 
 
@@ -28,5 +32,5 @@ body{
 
 
 .primary-btn{
-	@apply  bg-blue-600 rounded-xl p-2 px-5;
+	@apply  bg-blue-600 rounded-xl p-2 px-5 text-(--text);
 }

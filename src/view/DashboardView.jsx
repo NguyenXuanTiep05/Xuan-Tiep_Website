@@ -6,22 +6,22 @@ const DashboardView = () => {
 
             {/* Stats Row */}
             <div className='grid grid-cols-3 gap-4 mb-6'>
-                <div className='bg-(--secondary) rounded-2xl p-4 shadow-sm shadow-gray-300'>
+                <div className='bg-(--bg) rounded-2xl p-4 shadow-sm shadow-gray-300'>
                     <p className='text-(--tertiary)'>Total Users</p>
                     <h2 className='text-3xl font-bold'>1,284</h2>
                 </div>
-                <div className='bg-(--secondary) rounded-2xl p-4 shadow-sm shadow-gray-300'>
+                <div className='bg-(--bg) rounded-2xl p-4 shadow-sm shadow-gray-300'>
                     <p className='text-(--tertiary)'>Active Sessions</p>
                     <h2 className='text-3xl font-bold'>42</h2>
                 </div>
-                <div className='bg-(--secondary) rounded-2xl p-4 shadow-sm shadow-gray-300'>
+                <div className='bg-(--bg) rounded-2xl p-4 shadow-sm shadow-gray-300'>
                     <p className='text-(--tertiary)'>Revenue</p>
                     <h2 className='text-3xl font-bold'>$9,420</h2>
                 </div>
             </div>
 
             {/* Recent Activity */}
-            <div className='bg-(--secondary) rounded-2xl p-4 shadow-sm shadow-gray-300'>
+            <div className='bg-(--bg) rounded-2xl p-4 shadow-sm shadow-gray-300'>
                 <h2 className='text-xl font-bold mb-4'>Recent Activity</h2>
                 <table className='w-full text-left'>
                     <thead>

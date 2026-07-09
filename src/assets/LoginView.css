@@ -1,28 +1,44 @@
 .panel-left,
 .panel-right {
   position: relative;
-}
 
+  will-change: transform;
+}
+.panel-left{
+  border-right: var(--highlight) 1px solid;
+}
+.panel-right{
+  border-left: var(--highlight) 1px solid;
+}
 
 .panel-left.slide {
-  animation: slideLeft 1.5s cubic-bezier(0.6, 0, 0.2, 1) 0.25s both;
+  animation: slideLeft 1s cubic-bezier(0.6, 0, 0.2, 1) 0.25s both;
 }
 .panel-right.slide {
-  animation: slideRight 1.5s cubic-bezier(0.6, 0, 0.2, 1) 0.25s both;
+  animation: slideRight 1s cubic-bezier(0.6, 0, 0.2, 1) 0.25s both;
+}
+#login-form {
+  opacity: 0;
+  animation: slideDown 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 #login-form.slide {
-  animation: slideUp 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  opacity: 100;
+  animation: slideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 @keyframes slideRight {
   from { transform: translateX(0); }
-  to   { transform: translateX(150%); border-left: var(--highlight) 2px solid;}
+  to   { transform: translateX(150%);}
 }
 @keyframes slideLeft {
   from { transform: translateX(0); }
-  to   { transform: translateX(-150%); border-right: var(--highlight) 2px solid;}
+  to   { transform: translateX(-150%);}
 }
 @keyframes slideUp {
-  from { transform: translateY(0); }
-  to   { transform: translateY(-10%); opacity: 0;}
+  from { transform: translateY(0);}
+  to   { transform: translateY(-20%); opacity: 0;}
+}
+@keyframes slideDown {
+  from { transform: translateY(-20%);}
+  to   { transform: translateY(0%); opacity: 100;}
 }
