@@ -25,10 +25,7 @@ const LoginForm = () => {
 	const [error, setError] = useState(null);
 
 	const handleLogin = async (e) => {
-		SidePanelAnimation()
-		setTimeout(() => {
-        	setIsLogged(true);
-		}, 900);
+
 	    e.preventDefault();
 	    setError(null);
 
