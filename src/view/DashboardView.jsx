@@ -1,6 +1,6 @@
 const DashboardView = () => {
     return (
-        <div className='w-full h-full p-6 text-(--text)'>
+        <div className='slide-in w-full h-full p-6 text-(--text)'>
             <h1 className='text-4xl font-bold'>Dashboard</h1>
             <hr className='mb-6 mt-3 border-(--border)'/>
 
