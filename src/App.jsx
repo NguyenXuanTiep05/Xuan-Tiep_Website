@@ -1,10 +1,10 @@
 
 
-import { useEffect, lazy, Suspense } from 'react'
+import { useEffect } from 'react'
 
 
-const LoginView = lazy(() => import("./view/LoginView"));
-const DashboardView = lazy(() => import("./view/DashboardView.jsx"));
+import LoginView from "./view/LoginView";
+import DashboardView from "./view/DashboardView.jsx";
 
 import { useAuth } from "./hooks/UseAuth.jsx";
 
@@ -35,18 +35,14 @@ function App() {
   useFavicon()
   const { isLogged } = useAuth();
 
-  if (isLogged === undefined) return null; // or a spinner
+  if (isLogged === undefined) return null;
 
   return (
     <>
       {isLogged ? (
-        <Suspense fallback={<div className='m-auto text-white text-6xl'>Loading...</div>}>
           <DashboardView />
-        </Suspense>
       ) : (
-        <Suspense fallback={<div className='m-auto text-white text-6xl'>Loading...</div>}>
           <LoginView />
-        </Suspense>
       )}
     </>
   );

@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({ children }) => {
-    const [isLogged, setIsLogged] = useState(undefined);
-    useEffect(() => {
+    const [isLogged, setIsLogged] = useState(false);
+    useEffect( () => {
         fetch("https://xuan-tiep.com/api/verify", {
             credentials: "include"
         })
