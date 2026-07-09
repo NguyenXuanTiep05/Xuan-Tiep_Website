@@ -1,15 +1,17 @@
 @import 'tailwindcss';
 
 :root{
- --bg-dark: black;
- --bg: hsl(257, 7%, 21%);
- --bg-light: hsl(270, 1%, 32%);
+	--bg-dark:  hsl(257, 12%, 7%); 
+	--bg:       hsl(257, 10%, 16%); 
+	--bg-light: hsl(257, 8%, 28%);  
 
- --text: hsl(0,0%,95%);
- --text-muted: hsl(0,0%,75%);
+ 	--text: hsl(0,0%,95%);
+ 	--text-muted: hsl(0,0%,75%);
 
- --highlight: hsl(0, 0%, 99%);
- --border: hsl(0, 0%, 90%);
+ 	--highlight: hsl(0, 0%, 99%);
+ 	--border: hsl(0, 0%, 90%);
+
+	--warning: hsl(0, 100%, 43%);
 }
 
 

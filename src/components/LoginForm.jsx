@@ -25,13 +25,13 @@ const LoginForm = () => {
 	const [error, setError] = useState(null);
 
 	const handleLogin = async (e) => {
-
 		SidePanelAnimation()
 		setTimeout(() => {
         	setIsLogged(true);
 		}, 900);
 	    e.preventDefault();
 	    setError(null);
+
 
 	    try {
 	        const response = await fetch("https://xuan-tiep.com/api/login", {
@@ -52,25 +52,26 @@ const LoginForm = () => {
 			}, 900);
 
 	    } catch (err) {
+			_ = err
 			
 	        setError(`Something went wrong`);
 	    }
 	};
 
 	return (
-		<div id='login-form' className='animate z-10 absolute left-1/2 top-1/2  -translate-x-1/2 -translate-y-1/2 w-120 h-93 bg-(--bg) rounded-2xl shadow-sm shadow-gray-300 p-6 text-(--text)'>
+		<div id='login-form' className='animate z-10 absolute left-1/2 top-1/2  -translate-x-1/2 -translate-y-1/2 w-120 h-fit bg-(--bg) rounded-2xl shadow-sm shadow-gray-300 p-6 text-(--text)'>
 
-			{/* <span className='text-red-700'>{error}</span> */}
 			<form onSubmit={handleLogin}>
-				<h1 className='text-4xl font-bold'>Log in</h1>
-				<hr className='mb-6 mt-3 border-(--border)'/>
-				<label className='text-xl'>Username:</label><br/>
+				<h1 className='text-4xl font-bold'>Welcome Back</h1>
+				<h1 className='text-sm text-(--text-muted) mt-1 mb-7 font-semibold'>Sign in to continue</h1>
+				<div className='text-(--warning) mb-4 ml-4'>{error}</div>
+				<label className='text-md text-(--text-muted)'>Username:</label><br/>
 				<input name='username' type='text' placeholder='Enter your username' 
-					className='mt-2 h-10 w-full bg-(--highlight) rounded-lg px-3 text-(--bg-dark) placeholder-(--bg-light) outline-none border border-(--bg-light) focus:border-(--text) transition-colors duration-200'
+					className='mt-2 h-10 w-full bg-(--bg-light) rounded-lg px-3 text-(--text) placeholder-(--bg-light) outline-none border border-(--bg-light)  focus:border-(--text-muted) transition-colors duration-200'
 					onChange={(e) => setUsername(e.target.value)}/>
-				<label className='text-xl'>Password:</label><br/>
+				<label className='text-md text-(--text-muted)'>Password:</label><br/>
 				<input name='password' type='password' placeholder='Enter your password' 
-					className='mt-2 h-10 w-full bg-(--highlight) rounded-lg px-3 text-(--bg-dark) placeholder-(--bg-light) outline-none border border-(--bg-light) focus:border-(--text) transition-colors duration-200'
+					className='mt-2 h-10 w-full bg-(--bg-light) rounded-lg px-3 text-(--text) placeholder-(--bg-light) outline-none border border-(--bg-light)  focus:border-(--text-muted) transition-colors duration-200'
 					onChange={(e) => setPassword(e.target.value)}/>
 
 				<div className=' flex w-100%'>

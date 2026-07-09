@@ -1,20 +1,24 @@
 .panel-left,
 .panel-right {
   position: relative;
-
   will-change: transform;
+  background: radial-gradient(
+    100% 100% at var(--glow-x) var(--glow-y),
+    hsl(257, 25%, 16%) 0%,
+    var(--bg-dark) 100%
+  );
 }
-.panel-left{
-  border-right: var(--highlight) 1px solid;
-}
-.panel-right{
-  border-left: var(--highlight) 1px solid;
-}
+.panel-left  { --glow-x: 0%; --glow-y: 0%;}  
+.panel-right { --glow-x: 100%; --glow-y: 100%;}  
 
 .panel-left.slide {
+  border-right: var(--border) 2px solid;
+  transition: border-right 0.25s ease-out;
   animation: slideLeft 1s cubic-bezier(0.6, 0, 0.2, 1) 0.25s both;
 }
 .panel-right.slide {
+  border-left: var(--border) 2px solid;
+  transition: border-left 0.25s ease-out;
   animation: slideRight 1s cubic-bezier(0.6, 0, 0.2, 1) 0.25s both;
 }
 #login-form {
