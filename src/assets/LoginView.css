@@ -5,7 +5,7 @@
   will-change: transform;
   background: radial-gradient(
     100% 100% at var(--glow-x) var(--glow-y),
-    hsl(257, 25%, 16%) 0%,
+    var(--gradient) 0%,
     var(--bg-dark) 100%
   );
 }

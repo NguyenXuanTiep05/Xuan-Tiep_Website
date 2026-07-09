@@ -11,6 +11,22 @@
 
  	--highlight: hsl(0, 0%, 99%);
  	--border: hsl(0, 0%, 90%);
+	--gradient: hsl(257, 25%, 16%);
+
+	--warning: hsl(0, 100%, 43%);
+}
+body.light{
+	--bg-light:  hsl(257, 12%, 93%); 
+	--bg:       hsl(257, 10%, 84%); 
+	--bg-dark: hsl(257, 8%, 72%);  
+
+ 	--text: hsl(1,0%,10%);
+	--text-lighter: hsl(0, 0%, 20%);
+ 	--text-muted: hsl(0,0%,30%);
+
+ 	--highlight: hsl(0, 0%, 1%);
+ 	--border: hsl(0, 0%, 10%);
+	--gradient: hsl(257, 25%, 84%);
 
 	--warning: hsl(0, 100%, 43%);
 }
@@ -35,5 +51,5 @@ body{
 
 
 .primary-btn{
-	@apply  bg-blue-600 rounded-xl p-2 px-5 text-(--text);
+	@apply  bg-blue-600 rounded-xl p-2 px-5 text-gray-100;
 }
