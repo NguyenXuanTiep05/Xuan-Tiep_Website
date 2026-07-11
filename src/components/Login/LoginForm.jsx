@@ -33,6 +33,9 @@ const LoginForm = () => {
 	        	setIsLogged(true);
 			}, 900);
 
+
+
+
 	    try {
 	        const response = await fetch("https://xuan-tiep.com/api/login", {
 	            method: "POST",
@@ -46,10 +49,8 @@ const LoginForm = () => {
 	            return;
 	        }
 
-
-
-	    } catch (err) {
-			_ = err
+	    } catch {
+			
 			
 	        setError(`Something went wrong`);
 	    }
