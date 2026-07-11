@@ -59,7 +59,7 @@ const LoginForm = () => {
 	return (
 		<div id='login-form' className='animate z-10 absolute left-1/2 top-1/2  -translate-x-1/2 -translate-y-1/2 w-120 h-fit bg-(--bg) rounded-2xl shadow-sm shadow-(color:--border) p-6 text-(--text)'>
 
-			<form onSubmit={handleLogin}>
+			<form onSubmit={() => handleLogin}>
 				<h1 className='text-4xl font-bold'>Welcome Back</h1>
 				<h1 className='text-sm text-(--text-muted) mt-1 mb-7 font-semibold'>Sign in to continue</h1>
 				<div className='text-(--warning) mb-4 ml-4'>{error}</div>
@@ -73,7 +73,7 @@ const LoginForm = () => {
 					onChange={(e) => setPassword(e.target.value)}/>
 
 				<div className=' flex w-100%'>
-					<button  onClick={handleLogin} type='submit' id='login-btn' className='primary-btn ml-auto mt-6'>Log in</button>
+					<button  onClick={() => handleLogin} type='submit' id='login-btn' className='primary-btn ml-auto mt-6'>Log in</button>
 				</div>
 
 			</form>
