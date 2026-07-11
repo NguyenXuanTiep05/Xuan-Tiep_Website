@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { GlobalContext } from "./GlobalContext";
 
 export const GlobalProvider = ({ children }) => {
-    const [isLogged, setIsLogged] = useState(false);
+    const [isLogged, setIsLogged] = useState(undefined);
+    const [title, setTitle] = useState("Loading...");
     useEffect( () => {
         fetch("https://xuan-tiep.com/api/verify", {
             credentials: "include"
@@ -15,7 +16,7 @@ export const GlobalProvider = ({ children }) => {
         .catch(() => setIsLogged(false));
     }, []);
     return (
-        <GlobalContext.Provider value={{ isLogged, setIsLogged }}>
+        <GlobalContext.Provider value={{ isLogged, setIsLogged, title, setTitle }}>
             {children}
         </GlobalContext.Provider>
     );

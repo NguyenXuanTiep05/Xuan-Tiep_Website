@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useGlobal } from "../hooks/UseGlobal.jsx";
+import { useGlobal } from "../../hooks/UseGlobal.jsx";
 
 import { useState } from 'react'
 
@@ -28,7 +28,10 @@ const LoginForm = () => {
 
 	    e.preventDefault();
 	    setError(null);
-
+			SidePanelAnimation()
+			setTimeout(() => {
+	        	setIsLogged(true);
+			}, 900);
 
 	    try {
 	        const response = await fetch("https://xuan-tiep.com/api/login", {
@@ -43,10 +46,7 @@ const LoginForm = () => {
 	            return;
 	        }
 
-			SidePanelAnimation()
-			setTimeout(() => {
-	        	setIsLogged(true);
-			}, 900);
+
 
 	    } catch (err) {
 			_ = err

@@ -31,9 +31,16 @@ const useFavicon = () => {
   }, [])
 }
 
+const useTitle = (title) => {
+  const titleEl = document.querySelector("#title")
+  titleEl.innerHTML = title;
+}
+
 function App() {
+  const { isLogged , title} = useGlobal();
+
   useFavicon()
-  const { isLogged } = useGlobal();
+  useTitle(title)
 
   if (isLogged === undefined) return null;
 

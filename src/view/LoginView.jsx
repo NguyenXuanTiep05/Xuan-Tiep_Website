@@ -1,6 +1,7 @@
 import React from 'react'
-import LoginForm from '../components/LoginForm'
+import LoginForm from '../components/Login/LoginForm'
 
+import { useGlobal } from '../hooks/UseGlobal'
 
 
 import '../assets/LoginView.css'
@@ -8,7 +9,8 @@ import '../assets/LoginView.css'
 
 const LoginView = () => {
 
-
+	const { setTitle } = useGlobal();
+	setTitle("Please log in");
 
   return (
 	<>

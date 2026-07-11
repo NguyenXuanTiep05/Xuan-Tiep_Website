@@ -1,4 +1,12 @@
+
+
+import { useGlobal } from '../hooks/UseGlobal'
+
+
 const DashboardView = () => {
+	const { setTitle } = useGlobal();
+	setTitle("DashBoard");
+
     return (
         <div className='slide-in w-full h-full p-6 text-(--text)'>
             <h1 className='text-4xl font-bold'>Dashboard</h1>
