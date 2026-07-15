@@ -15,6 +15,7 @@ export const GlobalProvider = ({ children }) => {
         })
         .catch(() => setIsLogged(false));
     }, []);
+
     return (
         <GlobalContext.Provider value={{ isLogged, setIsLogged, title, setTitle }}>
             {children}

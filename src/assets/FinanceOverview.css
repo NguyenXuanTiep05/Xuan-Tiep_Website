@@ -1,0 +1,9 @@
+.fill {
+	transform-origin: left;
+	animation: fillTrans 1s cubic-bezier(0,-0.17,0,1) var(--slide-in-delayed-s)  both;
+}
+
+@keyframes fillTrans {
+	from{transform: scaleX(0);}
+	to{transform: scaleX(1);}
+}

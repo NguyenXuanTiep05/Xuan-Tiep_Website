@@ -29,10 +29,6 @@ const LoginForm = () => {
 	    e.preventDefault();
 	    setError(null);
 
-
-
-
-
 	    try {
 	        const response = await fetch("https://xuan-tiep.com/api/auth/login", {
 	            method: "POST",

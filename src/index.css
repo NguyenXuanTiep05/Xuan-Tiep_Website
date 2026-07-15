@@ -14,6 +14,11 @@
 	--gradient: hsl(257, 25%, 16%);
 
 	--warning: hsl(0, 100%, 43%);
+	--success: hsl(118, 100%, 33%);
+
+
+	--slide-in-s:0.5s;
+	--slide-in-delayed-s: 0.7s;
 }
 body.light{
 	--bg-light:  hsl(257, 12%, 93%); 
@@ -52,7 +57,7 @@ body{
 .slide-in{
 	transform: translateY(-20px);
 	opacity: 0;
-	animation: slide-in 0.5s ease-in-out both;
+	animation: slide-in var(--slide-in-s) ease-in-out both;
 }
 @keyframes slide-in {
 	from{}
