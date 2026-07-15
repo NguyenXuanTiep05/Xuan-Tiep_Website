@@ -34,7 +34,7 @@ const LoginForm = () => {
 
 
 	    try {
-	        const response = await fetch("https://xuan-tiep.com/api/login", {
+	        const response = await fetch("https://xuan-tiep.com/api/auth/login", {
 	            method: "POST",
 	            headers: { "Content-Type": "application/json" },
 	            body: JSON.stringify({ username, password }),  

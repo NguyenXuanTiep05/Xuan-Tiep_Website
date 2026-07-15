@@ -6,7 +6,7 @@ export const GlobalProvider = ({ children }) => {
     const [isLogged, setIsLogged] = useState(undefined);
     const [title, setTitle] = useState("Loading...");
     useEffect( () => {
-        fetch("https://xuan-tiep.com/api/verify", {
+        fetch("https://xuan-tiep.com/api/auth/verify", {
             credentials: "include"
         })
         .then(res => {

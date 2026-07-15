@@ -11,7 +11,7 @@ const Header = () => {
 	const LogOut = async () => {
 	
 	    try {
-	        const response = await fetch("https://xuan-tiep.com/api/logout", {
+	        const response = await fetch("https://xuan-tiep.com/api/auth/logout", {
 	            method: "POST",
 	            headers: { "Content-Type": "application/json" },
 				credentials: "include" 
