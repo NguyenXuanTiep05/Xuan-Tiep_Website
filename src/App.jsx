@@ -1,6 +1,7 @@
 
 
 import { useEffect } from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 
 import LoginView from "./view/LoginView";
@@ -12,7 +13,13 @@ import darkIcon from '/dashboardBlack.png'
 import lightIcon from '/dashboardWhite.png'
 
 
+function ProtectedRoute({ isLogged, children }) {
+  return isLogged ? children : <Navigate to="/login" replace />;
+}
 
+function PublicOnlyRoute({ isLogged, children }) {
+  return isLogged ? <Navigate to="/" replace /> : children;
+}
 
 
 const useFavicon = () => {
@@ -46,13 +53,24 @@ function App() {
 
   return (
     <>
-      {isLogged ? (
-          <DashboardView />
-      ) : (
-          <LoginView />
-      )}
+      <BrowserRouter>
+        <Routes>
+          <Route path='/login' element={
+            <PublicOnlyRoute isLogged={isLogged}>
+              <LoginView/>
+            </PublicOnlyRoute>
+          }></Route>
+          <Route path='/*' element={
+            <ProtectedRoute isLogged={isLogged}>
+              <DashboardView/>
+            </ProtectedRoute>
+          }></Route>
+          
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
+
 
 export default App

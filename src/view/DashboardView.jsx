@@ -8,7 +8,7 @@ import Header from '../components/shared/Header';
 const DashboardView = () => {
 	const { setTitle } = useGlobal();
     useEffect(() => {
-	    setTitle("DashBoard");
+	    setTitle("Dashboard");
     }, [setTitle])
 
     return (
