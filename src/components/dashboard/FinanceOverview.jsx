@@ -2,6 +2,7 @@ import React from 'react'
 import '../../assets/FinanceOverview.css'
 
 import { useEffect ,useState} from 'react'
+import { Link } from 'react-router-dom';
 
 const FinanceOverview = () => {
     const [data, setData] = useState([]);
@@ -34,7 +35,7 @@ const FinanceOverview = () => {
 		<div className='w-[40%] bg-(--bg) rounded-sm p-5'>
 			<div className='flex flex-row'>
 				<h2 className='font-semibold text-sm text-(--warning)'>{err}</h2>
-				<a href='/finance' className='ml-auto flex items-center font-bold text-(--text-muted)  text-xl hover:text-(--text) transition-colors'>{">>"}</a>
+				<Link to='/finance' className='ml-auto flex items-center font-bold text-(--text-muted)  text-xl hover:text-(--text) transition-colors'>{">>"}</Link>
 			</div>
 
 			<h2 className='font-semibold text-xl'>Finance Overview</h2>
