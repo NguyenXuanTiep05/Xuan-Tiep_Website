@@ -17,7 +17,6 @@ const FinanceOverview = () => {
             return res.json();
         })
         .then(json => {
-			console.log(json);
             setData(json);
         })
         .catch(error => {
@@ -33,11 +32,16 @@ const FinanceOverview = () => {
 
 	return (
 		<div className='w-[40%] bg-(--bg) rounded-sm p-5'>
-			<h2 className='font-semibold text-sm text-(--warning)'>{err}</h2>
+			<div className='flex flex-row'>
+				<h2 className='font-semibold text-sm text-(--warning)'>{err}</h2>
+				<a href='/finance' className='ml-auto flex items-center font-bold text-(--text-muted)  text-xl hover:text-(--text) transition-colors'>{">>"}</a>
+			</div>
+
 			<h2 className='font-semibold text-xl'>Finance Overview</h2>
+
 			<div className='w-full flex flex-row'>
 				<h3 className='font-medium text-md'>Spending</h3>
-				<h3 className='ml-auto font-medium text-md text-(--success)'>{expenses} {curr}</h3>
+				<h3 className='ml-auto font-medium text-md text-(--success)'>-{expenses} {curr}</h3>
 			</div>
 			<div className='w-full h-5 bg-(--bg-light)'>
 				<div className='fill h-full bg-(--warning)' style={{ width: `${procent}%` }}></div>
@@ -46,6 +50,7 @@ const FinanceOverview = () => {
 				<h3 className='font-medium text-md'>Income</h3>
 				<h3 className='ml-auto font-medium text-md text-(--success)'>{income} {curr}</h3>
 			</div>
+
 			<div className='w-full h-5 bg-(--bg-light)'>
 				<div className='fill w-full h-full bg-(--success)'></div>
 			</div>

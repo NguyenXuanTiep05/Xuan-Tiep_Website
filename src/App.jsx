@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import LoginView from "./view/LoginView";
 import DashboardView from "./view/DashboardView.jsx";
+import FinanceView from './view/FinanceView.jsx';
 
 import { useGlobal } from "./hooks/UseGlobal.jsx";
 
@@ -55,12 +56,22 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+
+
           <Route path='/login' element={
             <PublicOnlyRoute isLogged={isLogged}>
               <LoginView/>
             </PublicOnlyRoute>
           }></Route>
-          <Route path='/*' element={
+
+          <Route path='/finance' element={
+            <ProtectedRoute isLogged={isLogged}>
+              <FinanceView/>
+            </ProtectedRoute>
+          } ></Route>
+
+
+          <Route path='/' element={
             <ProtectedRoute isLogged={isLogged}>
               <DashboardView/>
             </ProtectedRoute>

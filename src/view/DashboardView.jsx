@@ -17,7 +17,7 @@ const DashboardView = () => {
         
         <div className='slide-in w-full h-full pt-15 text-(--text)'>
             <Header/>
-            <div className='w-full h-full p-5'>
+            <div className='w-full h-full main-bg p-5'>
                 <FinanceOverview/>
             </div>
         </div>

@@ -54,6 +54,14 @@ body{
 	height: 100%;
 }
 
+.main-bg{
+  background: radial-gradient(
+	50%	20% at 50% 100%,
+    var(--gradient) 0%,
+    var(--bg-dark) 100%
+  );
+}
+
 .slide-in{
 	transform: translateY(-20px);
 	opacity: 0;
