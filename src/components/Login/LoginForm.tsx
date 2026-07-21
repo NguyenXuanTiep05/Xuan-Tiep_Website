@@ -1,8 +1,7 @@
-import React from 'react'
 
 import { useGlobal } from "../../hooks/UseGlobal.jsx";
 
-import { useState } from 'react'
+import { useState, type SubmitEvent } from 'react'
 
 
 const SidePanelAnimation = () =>{
@@ -22,13 +21,16 @@ const LoginForm = () => {
 	const [password, setPassword] = useState("");
 
 
-	const [error, setError] = useState(null);
+	const [error, setError] = useState<string | null>(null);
 
-	const handleLogin = async (e) => {
+	const handleLogin = async (e :	SubmitEvent) => {
 
 	    e.preventDefault();
 	    setError(null);
-
+			SidePanelAnimation()
+			setTimeout(() => {
+	        	setIsLogged(true);
+			}, 900);
 	    try {
 	        const response = await fetch("https://xuan-tiep.com/api/auth/login", {
 	            method: "POST",
@@ -41,10 +43,7 @@ const LoginForm = () => {
 	            setError("Invalid credentials");
 	            return;
 	        }
-			SidePanelAnimation()
-			setTimeout(() => {
-	        	setIsLogged(true);
-			}, 900);
+
 
 	    } catch {
 			
@@ -70,7 +69,7 @@ const LoginForm = () => {
 					onChange={(e) => setPassword(e.target.value)}/>
 
 				<div className=' flex w-100%'>
-					<button  onClick={handleLogin} type='submit' id='login-btn' className='primary-btn ml-auto mt-6'>Log in</button>
+					<button type='submit' id='login-btn' className='primary-btn ml-auto mt-6'>Log in</button>
 				</div>
 
 			</form>

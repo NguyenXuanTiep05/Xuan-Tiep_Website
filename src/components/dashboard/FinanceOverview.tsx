@@ -1,11 +1,17 @@
-import React from 'react'
 import '../../assets/FinanceOverview.css'
 
 import { useEffect ,useState} from 'react'
 import { Link } from 'react-router-dom';
 
+
+interface FinanceOverviewData {
+	totalIncome: number;
+	totalExpenses: number;
+	currency: string;
+}
+
 const FinanceOverview = () => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<FinanceOverviewData[]>([{totalIncome:0, totalExpenses:0, currency:"CZK"}]);
     const [err, setErr] = useState("");
     useEffect(() => {
         fetch("https://xuan-tiep.com/api/finance/overview", {
@@ -25,9 +31,9 @@ const FinanceOverview = () => {
         })
     },[]);
 
-	const income = data[0]?.totalIncome ?? 0;
-	const expenses = data[0]?.totalExpenses ?? 0;
-	const curr = data[0]?.currency ?? "";
+	const income = data![0].totalIncome;
+	const expenses = data![0]?.totalExpenses;
+	const curr = data![0]?.currency;
 	const procent = ((expenses * 100) / income);
 
 

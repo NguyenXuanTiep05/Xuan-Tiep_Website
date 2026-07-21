@@ -1,10 +1,14 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { GlobalContext } from "./GlobalContext";
 
-export const GlobalProvider = ({ children }) => {
-    const [isLogged, setIsLogged] = useState(undefined);
-    const [title, setTitle] = useState("Loading...");
+interface GlobalProviderProps {
+    children: ReactNode;
+}
+
+export const GlobalProvider = ({children} : GlobalProviderProps) => {
+    const [isLogged, setIsLogged] = useState<boolean>();
+    const [title, setTitle] = useState<string>("Loading...");
     useEffect( () => {
         fetch("https://xuan-tiep.com/api/auth/verify", {
             credentials: "include"

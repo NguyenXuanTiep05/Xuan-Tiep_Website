@@ -1,24 +1,31 @@
 
 
-import { useEffect } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 
 import LoginView from "./view/LoginView";
-import DashboardView from "./view/DashboardView.jsx";
-import FinanceView from './view/FinanceView.jsx';
+import DashboardView from "./view/DashboardView";
+import FinanceView from './view/FinanceView';
 
-import { useGlobal } from "./hooks/UseGlobal.jsx";
+import { useGlobal } from "./hooks/UseGlobal.ts";
 
 import darkIcon from '/dashboardBlack.png'
 import lightIcon from '/dashboardWhite.png'
 
 
-function ProtectedRoute({ isLogged, children }) {
+interface RouteProps{
+  isLogged: boolean;
+  children: ReactNode;
+}
+
+
+
+function ProtectedRoute({ isLogged, children } : RouteProps) {
   return isLogged ? children : <Navigate to="/login" replace />;
 }
 
-function PublicOnlyRoute({ isLogged, children }) {
+function PublicOnlyRoute({ isLogged, children } : RouteProps) {
   return isLogged ? <Navigate to="/" replace /> : children;
 }
 
@@ -27,21 +34,21 @@ const useFavicon = () => {
   useEffect(() => {
     const media = window.matchMedia('(prefers-color-scheme: dark)')
     
-    const setFavicon = (isDark) => {
-      document.querySelector('#favicon').href = isDark
+    const setFavicon = (isDark : boolean) => {
+      document.querySelector<HTMLLinkElement>('#favicon')!.href = isDark
         ? lightIcon
         : darkIcon
     }
 
-    setFavicon(media.matches)
-    media.addEventListener('change', (e) => setFavicon(e.matches))
-    return () => media.removeEventListener('change', (e) => setFavicon(e.matches))
+    const handleChange = (e: MediaQueryListEvent) => setFavicon(e.matches)
+    media.addEventListener('change', handleChange)
+    return () => media.removeEventListener('change', handleChange)
   }, [])
 }
 
-const useTitle = (title) => {
-  const titleEl = document.querySelector("#title")
-  titleEl.innerHTML = title;
+const useTitle = (title: string) => {
+  const  titleEl = document.querySelector<HTMLElement>("#title")
+  titleEl!.innerHTML = title;
 }
 
 function App() {
