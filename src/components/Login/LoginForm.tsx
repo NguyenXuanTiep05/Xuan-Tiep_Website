@@ -27,10 +27,7 @@ const LoginForm = () => {
 
 	    e.preventDefault();
 	    setError(null);
-			SidePanelAnimation()
-			setTimeout(() => {
-	        	setIsLogged(true);
-			}, 900);
+
 	    try {
 	        const response = await fetch("https://xuan-tiep.com/api/auth/login", {
 	            method: "POST",
@@ -43,7 +40,10 @@ const LoginForm = () => {
 	            setError("Invalid credentials");
 	            return;
 	        }
-
+			SidePanelAnimation()
+			setTimeout(() => {
+	        	setIsLogged(true);
+			}, 900);
 
 	    } catch {
 			
