@@ -1,7 +1,8 @@
+"use client"
 import '../../assets/FinanceOverview.css'
 
 import { useEffect ,useState} from 'react'
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 
 interface FinanceOverviewData {
@@ -41,7 +42,7 @@ const FinanceOverview = () => {
 		<div className='w-[40%] bg-(--bg) rounded-sm p-5'>
 			<div className='flex flex-row'>
 				<h2 className='font-semibold text-sm text-(--warning)'>{err}</h2>
-				<Link to='/finance' className='ml-auto flex items-center font-bold text-(--text-muted)  text-xl hover:text-(--text) transition-colors'>{">>"}</Link>
+				<Link href='/finance' className='ml-auto flex items-center font-bold text-(--text-muted)  text-xl hover:text-(--text) transition-colors'>{">>"}</Link>
 			</div>
 
 			<h2 className='font-semibold text-xl'>Finance Overview</h2>

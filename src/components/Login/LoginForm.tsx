@@ -1,7 +1,8 @@
+"use client"
+import { useRouter } from "next/navigation";
 
-import { useGlobal } from "../../hooks/UseGlobal.jsx";
+import { useState } from 'react'
 
-import { useState, type SubmitEvent } from 'react'
 
 
 const SidePanelAnimation = () =>{
@@ -16,18 +17,21 @@ const SidePanelAnimation = () =>{
 
 
 const LoginForm = () => {
- 	const { setIsLogged } = useGlobal();
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const router = useRouter();
 
 
 	const [error, setError] = useState<string | null>(null);
 
-	const handleLogin = async (e :	SubmitEvent) => {
+	const handleLogin = async (e :	React.SyntheticEvent<HTMLFormElement>) => {
 
 	    e.preventDefault();
 	    setError(null);
-
+			SidePanelAnimation()
+			setTimeout(() => {
+				router.replace("/");
+			}, 900);
 	    try {
 	        const response = await fetch("https://xuan-tiep.com/api/auth/login", {
 	            method: "POST",
@@ -40,10 +44,7 @@ const LoginForm = () => {
 	            setError("Invalid credentials");
 	            return;
 	        }
-			SidePanelAnimation()
-			setTimeout(() => {
-	        	setIsLogged(true);
-			}, 900);
+
 
 	    } catch {
 			

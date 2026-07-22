@@ -1,16 +1,7 @@
-import { useEffect } from 'react';
-
-import { useGlobal } from '../hooks/UseGlobal'
-
 import Header from '../components/shared/Header';
 
 
-
 const FinanceView = () => {
-	const { setTitle } = useGlobal();
-    useEffect(() => {
-	    setTitle("Finances");
-    }, [setTitle])
 
     return (
         
