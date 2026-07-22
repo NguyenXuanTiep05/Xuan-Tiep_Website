@@ -1,6 +1,14 @@
 import DashboardView from "@/view/DashboardView";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import type { Metadata } from 'next';
+
+export const metadata : Metadata ={
+  title: "XT - Dashboard",
+  description:"Dashboard for Xuan Tiep website"
+}
+
+
 export default async function Page(){
 
   // const token = (await cookies()).get("token")?.value;

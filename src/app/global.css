@@ -1,4 +1,7 @@
 @import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root{
 	--bg-dark:  hsl(257, 12%, 7%); 
@@ -72,6 +75,8 @@ body{
 	from{}
 	to{transform: translateY(0); opacity: 100;}
 }
-.primary-btn{
-	@apply  bg-blue-600 rounded-xl p-2 px-5 text-gray-100;
+@layer components {
+  .primary-btn {
+    @apply bg-blue-600 rounded-xl p-2 px-5 text-gray-100 cursor-pointer;
+  }
 }

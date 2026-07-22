@@ -28,10 +28,7 @@ const LoginForm = () => {
 
 	    e.preventDefault();
 	    setError(null);
-			SidePanelAnimation()
-			setTimeout(() => {
-				router.replace("/");
-			}, 900);
+
 	    try {
 	        const response = await fetch("https://xuan-tiep.com/api/auth/login", {
 	            method: "POST",
@@ -44,7 +41,10 @@ const LoginForm = () => {
 	            setError("Invalid credentials");
 	            return;
 	        }
-
+			SidePanelAnimation()
+			setTimeout(() => {
+				router.replace("/");
+			}, 900);
 
 	    } catch {
 			
@@ -70,7 +70,7 @@ const LoginForm = () => {
 					onChange={(e) => setPassword(e.target.value)}/>
 
 				<div className=' flex w-100%'>
-					<button type='submit' id='login-btn' className='primary-btn ml-auto mt-6'>Log in</button>
+					<button type='submit' id='login-btn' className='primary-btn ml-auto mt-6 hover:bg-blue-500 transition-colors delay-50'>Log in</button>
 				</div>
 
 			</form>
