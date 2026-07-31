@@ -1,44 +1,51 @@
-"use client"
-import { useState } from 'react';
-import Link from 'next/link';
+"use client";
+import { useState } from "react";
+import Link from "next/link";
 
-import { useRouter } from 'next/navigation';
-
+import { useRouter } from "next/navigation";
 
 const Header = () => {
-	const [error, setError] = useState<string | null>(null);
-	const router = useRouter();
+    const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
+    const LogOut = async () => {
+        try {
+            const response = await fetch(
+                "https://xuan-tiep.com/api/auth/logout",
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include",
+                },
+            );
 
-	const LogOut = async () => {
-	
-	    try {
-	        const response = await fetch("https://xuan-tiep.com/api/auth/logout", {
-	            method: "POST",
-	            headers: { "Content-Type": "application/json" },
-				credentials: "include" 
-	        });
-		
-	        if (!response.ok) {
-	            setError("There was problem with logging you out");
-	            return;
-	        }
-			router.replace("/login");
-		
-	    } catch {
-	        setError(`Something went wrong`);
-	    }
-	}
+            if (!response.ok) {
+                setError("There was problem with logging you out");
+                return;
+            }
+            router.replace("/login");
+        } catch {
+            setError(`Something went wrong`);
+        }
+    };
 
+    return (
+        <nav className="absolute top-0 w-full h-15 border-b border-(--border) flex items-center pl-30 pr-14 z-50">
+            <Link
+                href="/"
+                className="text-3xl font-bold hover:-translate-y-0.5 transition-transform duration-100 text-(--text) "
+            >
+                <h1>Xuan Tiep</h1>
+            </Link>
+            <span>{error}</span>
+            <button
+                onClick={() => LogOut()}
+                className="ml-auto text-(--text-muted) cursor-pointer hover:text-(--text) hover:font-bold transition-all duration-150"
+            >
+                Log out
+            </button>
+        </nav>
+    );
+};
 
-
- 	return (
-		<div className='absolute top-0 w-full h-15 border-b border-(--border) flex items-center pl-30 pr-14 z-50'>
-			<Link href="/" className='text-3xl font-bold hover:-translate-y-0.5 transition-transform duration-100 text-(--text) '>Xuan Tiep</Link>
-			<span>{error}</span>
-			<button onClick={() => LogOut()} className='ml-auto text-(--text-muted) cursor-pointer hover:text-(--text) hover:font-bold transition-all duration-150'>Log out</button>
-		</div>
- 	)
-}
-
-export default Header
+export default Header;

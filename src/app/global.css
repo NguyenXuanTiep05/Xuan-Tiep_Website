@@ -1,82 +1,135 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root{
-	--bg-dark:  hsl(257, 12%, 7%); 
-	--bg:       hsl(257, 10%, 16%); 
-	--bg-light: hsl(257, 8%, 28%);  
+:root {
+    --bg-dark: hsl(257, 12%, 7%);
+    --bg: hsl(257, 10%, 16%);
+    --bg-light: hsl(257, 8%, 28%);
 
- 	--text: hsl(0,0%,95%);
-	--text-lighter: hsl(0, 0%, 85%);
- 	--text-muted: hsl(0,0%,75%);
+    --text: hsl(0, 0%, 95%);
+    --text-lighter: hsl(0, 0%, 85%);
+    --text-muted: hsl(0, 0%, 75%);
 
- 	--highlight: hsl(0, 0%, 99%);
- 	--border: hsl(0, 0%, 90%);
-	--gradient: hsl(257, 25%, 16%);
+    --highlight: hsl(0, 0%, 99%);
+    --border: hsl(0, 0%, 90%);
+    --gradient: hsl(257, 25%, 16%);
 
-	--warning: hsl(0, 100%, 43%);
-	--success: hsl(118, 100%, 33%);
+    --warning: hsl(0, 100%, 43%);
+    --success: hsl(118, 100%, 33%);
 
+    --slide-in-s: 0.5s;
+    --slide-in-delayed-s: 0.7s;
 
-	--slide-in-s:0.5s;
-	--slide-in-delayed-s: 0.7s;
+    --main-bg: radial-gradient(
+        50% 20% at 50% 100%,
+        var(--gradient) 0%,
+        var(--bg-dark) 100%
+    );
 }
-body.light{
-	--bg-light:  hsl(257, 12%, 93%); 
-	--bg:       hsl(257, 10%, 84%); 
-	--bg-dark: hsl(257, 8%, 72%);  
+body.light {
+    --bg-light: hsl(257, 12%, 93%);
+    --bg: hsl(257, 10%, 84%);
+    --bg-dark: hsl(257, 8%, 72%);
 
- 	--text: hsl(1,0%,10%);
-	--text-lighter: hsl(0, 0%, 20%);
- 	--text-muted: hsl(0,0%,30%);
+    --text: hsl(1, 0%, 10%);
+    --text-lighter: hsl(0, 0%, 20%);
+    --text-muted: hsl(0, 0%, 30%);
 
- 	--highlight: hsl(0, 0%, 1%);
- 	--border: hsl(0, 0%, 10%);
-	--gradient: hsl(257, 25%, 84%);
+    --highlight: hsl(0, 0%, 1%);
+    --border: hsl(0, 0%, 10%);
+    --gradient: hsl(257, 25%, 84%);
 
-	--warning: hsl(0, 100%, 43%);
+    --warning: hsl(0, 100%, 43%);
 }
-
 
 /* *{
 	font-family: 'Inter', sans-serif;
 } */
 
-html{
-	height: 100%;
+html {
+    height: 100%;
 }
-body{
-	width: 100vw;
-	height: 100vh;
-	@apply bg-(--bg-dark) overflow-hidden;
+body {
+    width: 100dvw;
+    height: 100dvh;
+    @apply bg-(--bg-dark) overflow-hidden;
 }
-#root{
-	display: flex;
-	width: 100%;
-	height: 100%;
-}
-
-.main-bg{
-  background: radial-gradient(
-	50%	20% at 50% 100%,
-    var(--gradient) 0%,
-    var(--bg-dark) 100%
-  );
+#root {
+    display: flex;
+    width: 100%;
+    height: 100%;
 }
 
-.slide-in{
-	transform: translateY(-20px);
-	opacity: 0;
-	animation: slide-in var(--slide-in-s) ease-in-out both;
+.h2 {
+    @apply font-bold text-2xl;
+}
+.h3 {
+    @apply font-bold text-xl;
+}
+.h4 {
+    @apply font-bold text-xl;
+}
+
+.card {
+    @apply bg-(--bg) p-5 rounded-sm;
+}
+
+.input-primary {
+    @apply bg-(--bg-light) rounded-lg pl-3 text-(--text)
+			 placeholder-(--text-muted) outline-none border border-(--bg-light)  focus:border-(--text-muted) transition-colors duration-200;
+
+    appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+.content-wrapper {
+    @apply w-full h-full p-5;
+    background: var(--main-bg);
+}
+
+.slide-in {
+    transform: translateY(-20px);
+    opacity: 0;
+    animation: slide-in var(--slide-in-s) ease-in-out both;
 }
 @keyframes slide-in {
-	from{}
-	to{transform: translateY(0); opacity: 100;}
+    from {
+    }
+    to {
+        transform: translateY(0);
+        opacity: 100;
+    }
 }
 @layer components {
-  .primary-btn {
-    @apply bg-blue-600 rounded-xl p-2 px-5 text-gray-100 cursor-pointer;
-  }
+    .primary-btn {
+        @apply bg-blue-600 rounded-xl p-2 px-5 text-gray-100 cursor-pointer select-none hover:bg-blue-500 transition-colors delay-50;
+    }
+    .warning-btn {
+        @apply bg-red-600 rounded-xl p-2 px-5 text-gray-100 cursor-pointer select-none hover:bg-red-500 transition-colors delay-50;
+    }
+}
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .no-spinner::-webkit-outer-spin-button,
+    .no-spinner::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    .no-spinner {
+        appearance: textfield; /* Firefox */
+    }
 }

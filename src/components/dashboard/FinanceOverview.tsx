@@ -1,69 +1,80 @@
-"use client"
-import '../../assets/FinanceOverview.css'
+"use client";
+import "../../assets/FinanceOverview.css";
+import FinanceSummaryDto from "@/models/finance/FinanceSummaryDto";
 
-import { useEffect ,useState} from 'react'
-import Link from 'next/link';
+import { apiClient } from "@/api/client";
 
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
-interface FinanceOverviewData {
-	totalIncome: number;
-	totalExpenses: number;
-	currency: string;
-}
-
+import InfoTooltip from "../shared/InfoTooltip";
+import axios from "axios";
 const FinanceOverview = () => {
-    const [data, setData] = useState<FinanceOverviewData[]>([{totalIncome:0, totalExpenses:0, currency:"CZK"}]);
+    const [data, setData] = useState<FinanceSummaryDto>({
+        totalIncome: 0,
+        totalExpenses: 0,
+        currency: "CZK",
+    });
     const [err, setErr] = useState("");
     useEffect(() => {
-        fetch("https://xuan-tiep.com/api/finance/overview", {
-			credentials: "include"
-        })
-        .then(res => {
-            if (!res.ok) {
-                throw new Error(`HTTP error: ${res.status}`);
-            }
-            return res.json();
-        })
-        .then(json => {
-            setData(json);
-        })
-        .catch(error => {
-            setErr(error.message);
-        })
-    },[]);
+        const controller = new AbortController();
+        apiClient
+            .get(`/finance/summary`, {})
+            .then((res) => {
+                setData(res.data);
+            })
+            .catch((error) => {
+                if (axios.isCancel(error)) return;
+                setErr(error.message);
+            });
 
-	const income = data![0].totalIncome;
-	const expenses = data![0]?.totalExpenses;
-	const curr = data![0]?.currency;
-	const procent = ((expenses * 100) / income);
+        return () => controller.abort();
+    }, []);
 
+    const income = data!.totalIncome;
+    const expenses = data!.totalExpenses;
+    const curr = data!.currency;
+    const procent = (Math.abs(expenses) * 100) / income;
 
-	return (
-		<div className='w-[40%] bg-(--bg) rounded-sm p-5'>
-			<div className='flex flex-row'>
-				<h2 className='font-semibold text-sm text-(--warning)'>{err}</h2>
-				<Link href='/finance' className='ml-auto flex items-center font-bold text-(--text-muted)  text-xl hover:text-(--text) transition-colors'>{">>"}</Link>
-			</div>
+    return (
+        <article className="w-[30%] card self-start">
+            <div className="flex flex-row">
+                <h2 className="flex items-center gap-2 h2">
+                    {err != "" ? <InfoTooltip text={err} /> : ""}
+                    Finance Overview
+                </h2>
+                <Link
+                    href="/finance"
+                    className="ml-auto flex items-center font-bold text-(--text-muted)  text-xl hover:text-(--text) transition-colors"
+                >
+                    {">>"}
+                </Link>
+            </div>
 
-			<h2 className='font-semibold text-xl'>Finance Overview</h2>
+            <div className="mt-5 mb-1 w-full flex flex-row">
+                <h3 className="font-medium text-md">Spending</h3>
+                <h3 className="ml-auto font-medium text-md text-(--success)">
+                    {expenses} {curr}
+                </h3>
+            </div>
+            <div className="w-full h-4 bg-(--bg-light)">
+                <div
+                    className="fill h-full bg-(--warning) rounded-md"
+                    style={{ width: `${procent}%` }}
+                ></div>
+            </div>
+            <div className="mt-5 mb-1 w-full flex flex-row">
+                <h3 className="font-medium text-md">Income</h3>
+                <h3 className="ml-auto font-medium text-md text-(--success)">
+                    {income} {curr}
+                </h3>
+            </div>
 
-			<div className='w-full flex flex-row'>
-				<h3 className='font-medium text-md'>Spending</h3>
-				<h3 className='ml-auto font-medium text-md text-(--success)'>-{expenses} {curr}</h3>
-			</div>
-			<div className='w-full h-5 bg-(--bg-light)'>
-				<div className='fill h-full bg-(--warning)' style={{ width: `${procent}%` }}></div>
-			</div>
-			<div className='w-full flex flex-row'>
-				<h3 className='font-medium text-md'>Income</h3>
-				<h3 className='ml-auto font-medium text-md text-(--success)'>{income} {curr}</h3>
-			</div>
+            <div className=" w-full h-4 bg-(--bg-light)">
+                <div className="fill w-full h-full bg-(--success) rounded-md"></div>
+            </div>
+        </article>
+    );
+};
 
-			<div className='w-full h-5 bg-(--bg-light)'>
-				<div className='fill w-full h-full bg-(--success)'></div>
-			</div>
-		</div>
-	)
-}
-
-export default FinanceOverview
+export default FinanceOverview;

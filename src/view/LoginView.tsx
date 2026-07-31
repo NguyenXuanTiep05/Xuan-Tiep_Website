@@ -1,20 +1,16 @@
-import LoginForm from '../components/Login/LoginForm'
+import LoginForm from "../components/login/LoginForm";
 
-import '../assets/LoginView.css'
-
+import "../assets/LoginView.css";
 
 const LoginView = () => {
-  return (
-	<>
-	<div className='animate panel-left w-1/2 h-full bg-(--bg-dark) text-(--text) flex items-center justify-center'>
+    return (
+        <>
+            <section className="animate panel-left w-1/2 h-full bg-(--bg-dark) text-(--text) flex items-center justify-center"></section>
+            <LoginForm />
 
-	</div>
-	<LoginForm/>
+            <section className="animate panel-right w-1/2 h-full bg-(--bg-dark) text-(--text) flex items-center justify-center"></section>
+        </>
+    );
+};
 
-	<div className='animate panel-right w-1/2 h-full bg-(--bg-dark) text-(--text) flex items-center justify-center'>
-	</div>
-	</>
-  )
-}
-
-export default LoginView
+export default LoginView;
