@@ -40,20 +40,19 @@ export default function FinanceValueForm({
 
     return (
         <article className={`w-full h-fit card flex flex-col `}>
-            <div className="w-fit mb-4 flex flex-row rounded-md bg-(--bg-light)">
+            <div
+                onClick={() => {
+                    setMode(!mode);
+                }}
+                className="w-fit mb-4 flex flex-row rounded-md bg-(--bg-light) cursor-pointer"
+            >
                 <span
-                    className={`primary-btn rounded-l-md! rounded-r-none! px-4 py-2 ${mode ? "" : "bg-transparent!"}`}
-                    onClick={() => {
-                        setMode(true);
-                    }}
+                    className={`primary-btn rounded-l-md! rounded-r-none! px-4 py-2 pointer-events-none ${mode ? "" : "bg-transparent!"}`}
                 >
                     Income
                 </span>
                 <span
-                    className={`primary-btn rounded-r-md! rounded-l-none! px-4 py-2 ${!mode ? "" : "bg-transparent!"}`}
-                    onClick={() => {
-                        setMode(false);
-                    }}
+                    className={`primary-btn rounded-r-md! rounded-l-none! px-4 py-2 pointer-events-none ${!mode ? "" : "bg-transparent!"}`}
                 >
                     Expense
                 </span>

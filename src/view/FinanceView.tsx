@@ -30,11 +30,13 @@ const FinanceView = () => {
     }, []);
 
     const addRecord = (record: FinanceChangeDto) => {
+        console.log("addRecord called with:", record);
         setData((prev) => {
+            console.log("prev before update:", prev);
             if (!prev) return prev;
 
             if (record.type === "income") {
-                return {
+                const next = {
                     ...prev,
                     income: [record, ...prev.income],
                     summary: {
@@ -42,8 +44,9 @@ const FinanceView = () => {
                         totalIncome: prev.summary.totalIncome + record.value,
                     },
                 };
+                return next;
             } else {
-                return {
+                const next = {
                     ...prev,
                     expenses: [record, ...prev.expenses],
                     summary: {
@@ -52,6 +55,8 @@ const FinanceView = () => {
                             prev.summary.totalExpenses + record.value,
                     },
                 };
+                console.log("next after update:", next);
+                return next;
             }
         });
     };
