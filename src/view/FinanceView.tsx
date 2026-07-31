@@ -122,7 +122,10 @@ const FinanceView = () => {
                         <FinanceList
                             History={
                                 data
-                                    ? [...data.income, ...data.expenses].sort(
+                                    ? [
+                                          ...(data.income ?? []),
+                                          ...(data.expenses ?? []),
+                                      ].sort(
                                           (a, b) =>
                                               new Date(b.date).getTime() -
                                               new Date(a.date).getTime(),
