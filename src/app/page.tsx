@@ -1,24 +1,26 @@
 import DashboardView from "@/view/DashboardView";
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
+import Header from "@/components/shared/Header";
 
-export const metadata : Metadata ={
-  title: "XT - Dashboard",
-  description:"Dashboard for Xuan Tiep website"
-}
+export const metadata: Metadata = {
+    title: "XT - Dashboard",
+    description: "Dashboard for Xuan Tiep website",
+};
 
+export default async function Page() {
+    // const token = (await cookies()).get("token")?.value;
 
-export default async function Page(){
+    // const res = await fetch("https://xuan-tiep.com/api/auth/verify", {
+    //   headers: { cookie: `token=${token}` },
+    //   cache: "no-store",
+    // });
 
-  // const token = (await cookies()).get("token")?.value;
+    // if (res.status === 401) redirect("/login");
 
-  // const res = await fetch("https://xuan-tiep.com/api/auth/verify", {
-  //   headers: { cookie: `token=${token}` },
-  //   cache: "no-store",
-  // });
-
-  // if (res.status === 401) redirect("/login"); 
-
-  return <DashboardView/>
+    return (
+        <section className="w-full h-full pt-15 text-(--text)">
+            <Header />
+            <DashboardView />
+        </section>
+    );
 }
