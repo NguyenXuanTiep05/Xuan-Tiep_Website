@@ -1,0 +1,56 @@
+name: Deployment
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run build
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run build
+
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v3
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+
+      - name: Decode SSH key
+        run: |
+          printf '%s' "${{ secrets.SERVER_SSH_KEY }}" | base64 -d -i > deploy_key
+          chmod 600 deploy_key
+
+      - name: Copy files to server
+        run: |
+          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }} \
+            "mkdir -p /var/www/mainpage"
+          scp -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key -r \
+            .next/standalone/* .next/static ./public \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }}:/var/www/mainpage/
+
+      - name: Restart service
+        run: |
+          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }} \
+            "pm2 restart mainpage"
