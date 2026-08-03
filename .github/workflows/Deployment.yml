@@ -44,10 +44,20 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }} \
-            "mkdir -p /var/www/mainpage"
-          scp -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key -r \
-            .next/standalone/* .next/static ./public \
+            "mkdir -p /var/www/mainpage/.next"
+          echo "Copying standalone..."
+          scp -v -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key -r \
+            .next/standalone/. \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }}:/var/www/mainpage/
+          echo "Copying static..."
+          scp -v -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key -r \
+            .next/static \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }}:/var/www/mainpage/.next/
+          echo "Copying public..."
+          scp -v -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key -r \
+            ./public \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }}:/var/www/mainpage/
+          echo "All copies complete."
 
       - name: Restart service
         run: |
