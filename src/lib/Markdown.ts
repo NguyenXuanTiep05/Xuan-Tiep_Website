@@ -1,53 +1,67 @@
 export class Markdown {
-    static specialCharacters: Record<string, string> = {
-        "<br/>": "/break111s",
+    static _SpecialChars: Record<string, string> = {
+        "<br/>": "/1!@#1/",
     };
 
     static FormatText = (text: string) => {
-        text = this.StrongText(text);
-        text = this.FormatSpecialChars(text, this.specialCharacters);
+        text = this.TextEmphasis(text);
+        text = this.Headings(text);
+        text = this.FormatSpecialChars(text, this._SpecialChars);
         return text;
     };
 
     static HandleKeyDown = (
         e: React.KeyboardEvent<HTMLTextAreaElement>,
-        [text, setText]: [string, (value: string) => void],
+        [setTextS]: [(value: string) => void],
     ) => {
         const textarea = e.currentTarget;
+        const text = textarea.value;
+        let newText = text;
+
+        const cursorPos = textarea.selectionStart;
         if (e.key === "Enter") {
             e.preventDefault();
-            textarea.value += this.specialCharacters["<br/>"];
-            setText(text + this.specialCharacters["<br/>"]);
-        } else if (e.ctrlKey && e.key === "Backspace") {
-            const textarea = e.currentTarget;
-            const cursorPos = textarea.selectionStart;
-            const beforeCursor = text.slice(0, cursorPos);
-
-            const markers = Object.values(this.specialCharacters);
-            const matchedMarker = markers.find((marker) =>
-                beforeCursor.endsWith(marker),
+            newText = this.InsertAtIndex(
+                text,
+                cursorPos,
+                this._SpecialChars["<br/>"],
             );
+        } else if (e.key === "Backspace") {
+            const beforeCursor = text.slice(0, cursorPos);
+            if (beforeCursor.slice(-2) !== "1/") {
+                return;
+            }
+            const start = beforeCursor.lastIndexOf("/1");
+            const end =
+                start === -1 ? -1 : beforeCursor.indexOf("1/", start + 2) + 2;
+            console.log(beforeCursor);
+            console.log(`${start} , ${end}`);
 
-            if (matchedMarker) {
+            if (
+                this.FindKeyByValue(this._SpecialChars, text.slice(start, end))
+            ) {
+                console.log("founded");
                 e.preventDefault();
-                const newText =
-                    text.slice(0, cursorPos - matchedMarker.length) +
-                    text.slice(cursorPos);
-                setText(newText);
-
-                requestAnimationFrame(() => {
-                    textarea.selectionStart = textarea.selectionEnd =
-                        cursorPos - matchedMarker.length;
-                });
+                newText = text.substring(0, start) + text.substring(end);
             }
         }
+
+        setTextS(newText);
     };
 
     static FindKeyByValue = (
         record: Record<string, string>,
         value: string,
     ): boolean => {
-        return Object.entries(record).some(([key, val]) => val === value);
+        return Object.entries(record).some(([_, val]) => val === value);
+    };
+
+    static InsertAtIndex = (
+        str: string,
+        index: number,
+        textToInsert: string,
+    ): string => {
+        return str.slice(0, index) + textToInsert + str.slice(index);
     };
 
     static FormatSpecialChars = (
@@ -61,9 +75,80 @@ export class Markdown {
         return result;
     };
 
+    static TextEmphasis = (text: string): string => {
+        text = this.StrongText(text);
+        text = this.ItalicText(text);
+        text = this.ItalicText(text);
+        text = this.BlockQuote(text);
+
+        return text;
+    };
+
+    static Headings = (text: string): string => {
+        text = this.Heading4(text);
+        text = this.Heading3(text);
+        text = this.Heading2(text);
+        text = this.Heading1(text);
+
+        return text;
+    };
+
     static StrongText = (text: string): string => {
         return text.replace(/\*\*(.+?)\*\*/g, (match, innerText) => {
             return `<strong>${innerText}</strong>`;
         });
+    };
+
+    static ItalicText = (text: string): string => {
+        return text.replace(/\*(.+?)\*/g, (match, innerText) => {
+            return `<i>${innerText}</i>`;
+        });
+    };
+    static ItalicBoldText = (text: string): string => {
+        return text.replace(/\*\*\*(.+?)\*\*\*/g, (match, innerText) => {
+            return `<strong><i>${innerText}</i></strong>`;
+        });
+    };
+
+    static Heading1 = (text: string): string => {
+        return text.replace(
+            new RegExp(`# (.+?)${this._SpecialChars["<br/>"]}`, "g"),
+            (match, innerText) => {
+                return `<h1 class="text-4xl">${innerText}</h1>`;
+            },
+        );
+    };
+    static Heading2 = (text: string): string => {
+        return text.replace(
+            new RegExp(`## (.+?)${this._SpecialChars["<br/>"]}`, "g"),
+            (match, innerText) => {
+                return `<h2 class="text-3xl">${innerText}</h2>`;
+            },
+        );
+    };
+    static Heading3 = (text: string): string => {
+        return text.replace(
+            new RegExp(`### (.+?)${this._SpecialChars["<br/>"]}`, "g"),
+            (match, innerText) => {
+                return `<h3 class="text-2xl">${innerText}</h3>`;
+            },
+        );
+    };
+    static Heading4 = (text: string): string => {
+        return text.replace(
+            new RegExp(`#### (.+?)${this._SpecialChars["<br/>"]}`, "g"),
+            (match, innerText) => {
+                return `<h4 class="text-xl">${innerText}</h4>`;
+            },
+        );
+    };
+
+    static BlockQuote = (text: string): string => {
+        return text.replace(
+            new RegExp(`> (.+?)${this._SpecialChars["<br/>"]}`, "g"),
+            (match, innerText) => {
+                return `<blockquote class="italic font-semibold tracking-tight text-heading">"${innerText}"</blockquote>`;
+            },
+        );
     };
 }

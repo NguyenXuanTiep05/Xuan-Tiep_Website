@@ -1,0 +1,4 @@
+#markdownText::after {
+    content: "|";
+}
+@source inline("text-4xl text-3xl text-2xl text-xl italic font-semibold tracking-tight text-heading");

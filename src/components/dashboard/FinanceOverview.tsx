@@ -5,7 +5,6 @@ import FinanceSummaryDto from "@/models/finance/FinanceSummaryDto";
 import { apiClient } from "@/api/client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 
 import InfoTooltip from "../shared/InfoTooltip";
 import axios from "axios";
@@ -43,12 +42,6 @@ const FinanceOverview = () => {
                     {err != "" ? <InfoTooltip text={err} /> : ""}
                     Finance Overview
                 </h2>
-                <Link
-                    href="/finance"
-                    className="ml-auto flex items-center font-bold text-(--text-muted)  text-xl hover:text-(--text) transition-colors"
-                >
-                    {">>"}
-                </Link>
             </div>
 
             <div className="mt-5 mb-1 w-full flex flex-row">
