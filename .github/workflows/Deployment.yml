@@ -1,74 +1,65 @@
 name: Deployment
 
 on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
-  workflow_dispatch:
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
+    workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm ci
-      - run: npm run build
+    deploy:
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+            - run: npm ci
+            - run: npm run build
+              env:
+                  NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
-  deploy:
-    needs: build
-    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm ci
-      - run: npm run build
+            - name: Connect to Tailscale
+              uses: tailscale/github-action@v3
+              with:
+                  authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
-      - name: Connect to Tailscale
-        uses: tailscale/github-action@v3
-        with:
-          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+            - name: Decode SSH key
+              run: |
+                  printf '%s' "${{ secrets.SERVER_SSH_KEY }}" | base64 -d -i > deploy_key
+                  chmod 600 deploy_key
 
-      - name: Decode SSH key
-        run: |
-          printf '%s' "${{ secrets.SERVER_SSH_KEY }}" | base64 -d -i > deploy_key
-          chmod 600 deploy_key
+            - name: Copy files to server
+              run: |
+                  echo "Packaging build..."
+                  mkdir -p deploy_bundle
+                  cp -r .next/standalone/. deploy_bundle/
+                  mkdir -p deploy_bundle/.next
+                  cp -r .next/static deploy_bundle/.next/
+                  cp -r ./public deploy_bundle/
 
-      - name: Copy files to server
-        run: |
-          echo "Packaging build..."
-          mkdir -p deploy_bundle
-          cp -r .next/standalone/. deploy_bundle/
-          mkdir -p deploy_bundle/.next
-          cp -r .next/static deploy_bundle/.next/
-          cp -r ./public deploy_bundle/
+                  tar -czf deploy_bundle.tar.gz -C deploy_bundle .
 
-          tar -czf deploy_bundle.tar.gz -C deploy_bundle .
+                  ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key \
+                    ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }} \
+                    "mkdir -p /var/www/mainpage"
 
-          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }} \
-            "mkdir -p /var/www/mainpage"
+                  echo "Uploading archive..."
+                  scp -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key \
+                    deploy_bundle.tar.gz \
+                    ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }}:/tmp/deploy_bundle.tar.gz
 
-          echo "Uploading archive..."
-          scp -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key \
-            deploy_bundle.tar.gz \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }}:/tmp/deploy_bundle.tar.gz
+                  echo "Extracting on server..."
+                  ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key \
+                    ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }} \
+                    "tar -xzf /tmp/deploy_bundle.tar.gz -C /var/www/mainpage && rm /tmp/deploy_bundle.tar.gz"
 
-          echo "Extracting on server..."
-          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }} \
-            "tar -xzf /tmp/deploy_bundle.tar.gz -C /var/www/mainpage && rm /tmp/deploy_bundle.tar.gz"
+                  echo "Deploy complete."
 
-          echo "Deploy complete."
-
-      - name: Restart service
-        run: |
-          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }} \
-            "pm2 restart mainpage"
+            - name: Restart service
+              run: |
+                  ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key \
+                    ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }} \
+                    "pm2 restart mainpage"
