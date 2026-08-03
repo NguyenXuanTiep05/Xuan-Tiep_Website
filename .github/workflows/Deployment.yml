@@ -42,22 +42,30 @@ jobs:
 
       - name: Copy files to server
         run: |
+          echo "Packaging build..."
+          mkdir -p deploy_bundle
+          cp -r .next/standalone/. deploy_bundle/
+          mkdir -p deploy_bundle/.next
+          cp -r .next/static deploy_bundle/.next/
+          cp -r ./public deploy_bundle/
+
+          tar -czf deploy_bundle.tar.gz -C deploy_bundle .
+
           ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }} \
-            "mkdir -p /var/www/mainpage/.next"
-          echo "Copying standalone..."
-          scp -v -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key -r \
-            .next/standalone/. \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }}:/var/www/mainpage/
-          echo "Copying static..."
-          scp -v -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key -r \
-            .next/static \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }}:/var/www/mainpage/.next/
-          echo "Copying public..."
-          scp -v -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key -r \
-            ./public \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }}:/var/www/mainpage/
-          echo "All copies complete."
+            "mkdir -p /var/www/mainpage"
+
+          echo "Uploading archive..."
+          scp -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key \
+            deploy_bundle.tar.gz \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }}:/tmp/deploy_bundle.tar.gz
+
+          echo "Extracting on server..."
+          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }} \
+            "tar -xzf /tmp/deploy_bundle.tar.gz -C /var/www/mainpage && rm /tmp/deploy_bundle.tar.gz"
+
+          echo "Deploy complete."
 
       - name: Restart service
         run: |
