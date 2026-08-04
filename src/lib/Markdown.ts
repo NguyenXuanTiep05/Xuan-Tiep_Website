@@ -1,6 +1,7 @@
 export class Markdown {
     static _SpecialChars: Record<string, string> = {
         "<br/>": "\n",
+        "<tab/>": "\t",
     };
 
     static FormatText = (text: string) => {
@@ -19,12 +20,20 @@ export class Markdown {
         let newText = text;
 
         const cursorPos = textarea.selectionStart;
-        if (e.key === "Enter") {
+        // if (e.key === "Enter") {
+        //     e.preventDefault();
+        //     newText = this.InsertAtIndex(
+        //         text,
+        //         cursorPos,
+        //         this._SpecialChars["<br/>"],
+        //     );
+        // }
+        if (e.key === "Tab") {
             e.preventDefault();
             newText = this.InsertAtIndex(
                 text,
                 cursorPos,
-                this._SpecialChars["<br/>"],
+                this._SpecialChars["<tab/>"],
             );
         }
         // } else if (e.key === "Backspace") {
