@@ -5,6 +5,8 @@ export class Markdown {
     };
 
     static FormatText = (text: string) => {
+        text = this.TextFormatting(text);
+        text = this.TextBlocks(text);
         text = this.TextEmphasis(text);
         text = this.Headings(text);
         text = this.FormatSpecialChars(text, this._SpecialChars);
@@ -18,43 +20,22 @@ export class Markdown {
         const textarea = e.currentTarget;
         const text = textarea.value;
         let newText = text;
-
         const cursorPos = textarea.selectionStart;
-        // if (e.key === "Enter") {
-        //     e.preventDefault();
-        //     newText = this.InsertAtIndex(
-        //         text,
-        //         cursorPos,
-        //         this._SpecialChars["<br/>"],
-        //     );
-        // }
+        let newCursorPos = cursorPos;
+
         if (e.key === "Tab") {
             e.preventDefault();
-            newText = this.InsertAtIndex(
-                text,
-                cursorPos,
-                this._SpecialChars["<tab/>"],
-            );
-        }
-        // } else if (e.key === "Backspace") {
-        //     const beforeCursor = text.slice(0, cursorPos);
-        //     if (beforeCursor.slice(-2) !== "1/") {
-        //         return;
-        //     }
-        //     const start = beforeCursor.lastIndexOf("/1");
-        //     const end =
-        //         start === -1 ? -1 : beforeCursor.indexOf("1/", start + 2) + 2;
-        //     console.log(beforeCursor);
-        //     console.log(`${start} , ${end}`);
+            const insertText = this._SpecialChars["<tab/>"];
+            newText = this.InsertAtIndex(text, cursorPos, insertText);
+            newCursorPos = cursorPos + insertText.length;
+            setTextS(newText);
 
-        //     if (
-        //         this.FindKeyByValue(this._SpecialChars, text.slice(start, end))
-        //     ) {
-        //         console.log("founded");
-        //         e.preventDefault();
-        //         newText = text.substring(0, start) + text.substring(end);
-        //     }
-        // }
+            requestAnimationFrame(() => {
+                textarea.selectionStart = newCursorPos;
+                textarea.selectionEnd = newCursorPos;
+            });
+            return;
+        }
 
         setTextS(newText);
     };
@@ -85,13 +66,36 @@ export class Markdown {
         return result;
     };
 
-    static TextEmphasis = (text: string): string => {
+    static TextFormatting = (text: string): string => {
+        text = this.HorizontalLine(text);
+        return text;
+    };
+
+    static TextBlocks = (text: string): string => {
         text = this.BlockQuote(text);
+        text = this.Paragraph(text);
+        text = this.Picture(text);
+        text = this.Link(text);
+        text = this.UnorderedList(text);
+        text = this.OrderedList(text);
+
+        return text;
+    };
+
+    static TextEmphasis = (text: string): string => {
         text = this.StrongText(text);
         text = this.ItalicText(text);
         text = this.ItalicText(text);
+        text = this.StrikeThrough(text);
+        text = this.InlineCode(text);
 
         return text;
+    };
+
+    static HorizontalLine = (text: string): string => {
+        return text.replace(/^(?:-{3,}|\*{3,}|_{3,})\n/gm, (match) => {
+            return `<hr class="hr"/>`;
+        });
     };
 
     static Headings = (text: string): string => {
@@ -104,61 +108,127 @@ export class Markdown {
     };
 
     static StrongText = (text: string): string => {
-        return text.replace(/\*\*(.+?)\*\*/gm, (match, innerText) => {
+        return text.replace(/\*\*([^*]+?)\*\*/gm, (match, innerText) => {
             return `<strong>${innerText}</strong>`;
         });
     };
 
     static ItalicText = (text: string): string => {
-        return text.replace(/\*(.+?)\*/gm, (match, innerText) => {
+        return text.replace(/\*([^*]+?)\*/gm, (match, innerText) => {
             return `<i>${innerText}</i>`;
         });
     };
     static ItalicBoldText = (text: string): string => {
-        return text.replace(/\*\*\*(.+?)\*\*\*/gm, (match, innerText) => {
+        return text.replace(/\*\*\*([^*]+?)\*\*\*/gm, (match, innerText) => {
             return `<strong><i>${innerText}</i></strong>`;
+        });
+    };
+    static StrikeThrough = (text: string): string => {
+        return text.replace(/~~([^~]+?)~~/gm, (match, innerText) => {
+            return `<span class="line-through">${innerText}</span>`;
+        });
+    };
+    static InlineCode = (text: string): string => {
+        return text.replace(/\`([^\`]+?)\`/gm, (match, innerText) => {
+            return `<code class="code">${innerText}</code>`;
         });
     };
 
     static Heading1 = (text: string): string => {
-        return text.replace(
-            new RegExp(`# (.+?)$\n?`, "gm"),
-            (match, innerText) => {
-                return `<h1 class="text-4xl">${innerText}</h1>`;
-            },
-        );
+        return text.replace(/# (.+?)$\n?/gm, (match, innerText) => {
+            return `<h1 class="text-4xl">${innerText}</h1>`;
+        });
     };
     static Heading2 = (text: string): string => {
-        return text.replace(
-            new RegExp(`## (.+?)$\n?`, "gm"),
-            (match, innerText) => {
-                return `<h2 class="text-3xl">${innerText}</h2>`;
-            },
-        );
+        return text.replace(/## (.+?)$\n?/gm, (match, innerText) => {
+            return `<h2 class="text-3xl">${innerText}</h2>`;
+        });
     };
     static Heading3 = (text: string): string => {
-        return text.replace(
-            new RegExp(`### (.+?)$\n?`, "gm"),
-            (match, innerText) => {
-                return `<h3 class="text-2xl">${innerText}</h3>`;
-            },
-        );
+        return text.replace(/### (.+?)$\n?/gm, (match, innerText) => {
+            return `<h3 class="text-2xl">${innerText}</h3>`;
+        });
     };
     static Heading4 = (text: string): string => {
+        return text.replace(/#### (.+?)$\n?/gm, (match, innerText) => {
+            return `<h4 class="text-xl">${innerText}</h4>`;
+        });
+    };
+
+    static BlockQuote = (text: string): string => {
+        return text.replace(/>>? (.+?)$\n?/gm, (match, innerText) => {
+            return `<blockquote class="italic font-semibold tracking-tight text-heading">"${innerText}"</blockquote>`;
+        });
+    };
+    static Paragraph = (text: string): string => {
         return text.replace(
-            new RegExp(`#### (.+?)$\n?`, "gm"),
-            (match, innerText) => {
-                return `<h4 class="text-xl">${innerText}</h4>`;
+            /```(\w+)?\n?([\s\S]+?)\n```/gm,
+            (match, lang, innerText) => {
+                const language = lang || "text";
+                const code = lang == null ? "paragraph" : "code";
+                return `\n<pre  class="language-${language} ${code} "><code>${innerText.trim()}</code></pre>`;
             },
         );
     };
 
-    static BlockQuote = (text: string): string => {
-        return text.replace(
-            new RegExp(`>>? (.+?)$\n?`, "gm"),
-            (match, innerText) => {
-                return `<blockquote class="italic font-semibold tracking-tight text-heading">"${innerText}"</blockquote>`;
-            },
-        );
+    static Link = (text: string): string => {
+        return text.replace(/\[(.+)\]\((.+)\)/gm, (match, label, link) => {
+            return `<a href="${link}">${label}</a>`;
+        });
+    };
+    static Picture = (text: string): string => {
+        return text.replace(/\!\[(.+)\]\((.+)\)/g, (match, label, link) => {
+            return `<img src="${link}" alt="${label}"></img>`;
+        });
+    };
+
+    static UnorderedList = (text: string): string => {
+        return text.replace(/^(?:[ \t]*[-*+] .+\n?)+/gm, (block) => {
+            return this.BuildNestedList(block, /^[-*+] /);
+        });
+    };
+
+    static OrderedList = (text: string): string => {
+        return text.replace(/^(?:[ \t]*\d+\. .+\n?)+/gm, (block) => {
+            return this.BuildNestedList(block, /^\d+\. /);
+        });
+    };
+
+    static BuildNestedList = (block: string, markerRegex: RegExp): string => {
+        const lines = block.replace(/\n$/, "").split("\n");
+        const isOrdered = markerRegex.source.includes("\\d");
+        const tag = isOrdered ? "ol" : "ul";
+        const listClass = isOrdered
+            ? "list-decimal list-inside space-y-1 mb-4"
+            : "list-disc list-inside space-y-1 mb-4";
+
+        let html = "";
+        const stack: number[] = []; // tracks indent levels currently open
+
+        for (const line of lines) {
+            const indentMatch = line.match(/^[ \t]*/);
+            const indent = indentMatch ? indentMatch[0].length : 0;
+            const content = line
+                .replace(/^[ \t]*/, "")
+                .replace(markerRegex, "")
+                .trim();
+
+            while (stack.length && indent < stack[stack.length - 1]) {
+                html += `</li></${tag}>`;
+                stack.pop();
+            }
+
+            if (!stack.length || indent > stack[stack.length - 1]) {
+                html += `<${tag} class="${listClass} ${stack.length ? "ml-4" : ""}">`;
+                stack.push(indent);
+            } else {
+                html += `</li>`;
+            }
+
+            html += `<li>${content}`;
+        }
+
+        html += `</li>` + `</${tag}>`.repeat(stack.length);
+        return html;
     };
 }

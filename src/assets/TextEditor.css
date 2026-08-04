@@ -1,4 +1,26 @@
 /* #markdownText::after {
     content: "|";
 } */
-@source inline("text-4xl text-3xl text-2xl text-xl italic font-semibold tracking-tight text-heading");
+@import "tailwindcss";
+@tailwind utilities;
+@source inline("text-4xl text-3xl text-2xl text-xl italic font-semibold tracking-tight text-heading font-mono text-sm bg-gray-800 text-pink-400 px-1.5 py-0.5 rounded dark:bg-gray-800 dark:text-pink-400 line-through");
+
+.code {
+    @apply font-mono text-sm bg-gray-800 text-pink-400 px-1.5 py-0.5 rounded;
+}
+
+.paragraph {
+    @apply text-sm leading-relaxed bg-gray-800 rounded text-gray-200 px-1.5 py-0.5;
+}
+
+.hr {
+    @apply bg-(--border) h-1;
+}
+
+ul {
+    @apply list-disc list-inside space-y-1 mb-4;
+}
+
+ol {
+    @apply list-decimal list-inside space-y-1 mb-4;
+}
