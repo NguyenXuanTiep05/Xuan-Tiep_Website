@@ -10,7 +10,7 @@ const TextEditor = () => {
     return (
         <div className="relative w-full h-full flex flex-row">
             <div
-                className=" inset-0 w-[50%] h-full p-2 z-10 pointer-events-none wrap-break-word"
+                className=" inset-0 w-[50%] h-full p-2 z-10 wrap-break-word overflow-y-scroll scrollbar-none"
                 id="markdownText"
                 dangerouslySetInnerHTML={{ __html: Markdown.FormatText(text) }}
             ></div>

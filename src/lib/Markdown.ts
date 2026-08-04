@@ -1,6 +1,6 @@
 export class Markdown {
     static _SpecialChars: Record<string, string> = {
-        "<br/>": "/1!@#1/",
+        "<br/>": "\n",
     };
 
     static FormatText = (text: string) => {
@@ -26,25 +26,26 @@ export class Markdown {
                 cursorPos,
                 this._SpecialChars["<br/>"],
             );
-        } else if (e.key === "Backspace") {
-            const beforeCursor = text.slice(0, cursorPos);
-            if (beforeCursor.slice(-2) !== "1/") {
-                return;
-            }
-            const start = beforeCursor.lastIndexOf("/1");
-            const end =
-                start === -1 ? -1 : beforeCursor.indexOf("1/", start + 2) + 2;
-            console.log(beforeCursor);
-            console.log(`${start} , ${end}`);
-
-            if (
-                this.FindKeyByValue(this._SpecialChars, text.slice(start, end))
-            ) {
-                console.log("founded");
-                e.preventDefault();
-                newText = text.substring(0, start) + text.substring(end);
-            }
         }
+        // } else if (e.key === "Backspace") {
+        //     const beforeCursor = text.slice(0, cursorPos);
+        //     if (beforeCursor.slice(-2) !== "1/") {
+        //         return;
+        //     }
+        //     const start = beforeCursor.lastIndexOf("/1");
+        //     const end =
+        //         start === -1 ? -1 : beforeCursor.indexOf("1/", start + 2) + 2;
+        //     console.log(beforeCursor);
+        //     console.log(`${start} , ${end}`);
+
+        //     if (
+        //         this.FindKeyByValue(this._SpecialChars, text.slice(start, end))
+        //     ) {
+        //         console.log("founded");
+        //         e.preventDefault();
+        //         newText = text.substring(0, start) + text.substring(end);
+        //     }
+        // }
 
         setTextS(newText);
     };
@@ -76,10 +77,10 @@ export class Markdown {
     };
 
     static TextEmphasis = (text: string): string => {
+        text = this.BlockQuote(text);
         text = this.StrongText(text);
         text = this.ItalicText(text);
         text = this.ItalicText(text);
-        text = this.BlockQuote(text);
 
         return text;
     };
@@ -94,25 +95,25 @@ export class Markdown {
     };
 
     static StrongText = (text: string): string => {
-        return text.replace(/\*\*(.+?)\*\*/g, (match, innerText) => {
+        return text.replace(/\*\*(.+?)\*\*/gm, (match, innerText) => {
             return `<strong>${innerText}</strong>`;
         });
     };
 
     static ItalicText = (text: string): string => {
-        return text.replace(/\*(.+?)\*/g, (match, innerText) => {
+        return text.replace(/\*(.+?)\*/gm, (match, innerText) => {
             return `<i>${innerText}</i>`;
         });
     };
     static ItalicBoldText = (text: string): string => {
-        return text.replace(/\*\*\*(.+?)\*\*\*/g, (match, innerText) => {
+        return text.replace(/\*\*\*(.+?)\*\*\*/gm, (match, innerText) => {
             return `<strong><i>${innerText}</i></strong>`;
         });
     };
 
     static Heading1 = (text: string): string => {
         return text.replace(
-            new RegExp(`# (.+?)${this._SpecialChars["<br/>"]}`, "g"),
+            new RegExp(`# (.+?)$\n?`, "gm"),
             (match, innerText) => {
                 return `<h1 class="text-4xl">${innerText}</h1>`;
             },
@@ -120,7 +121,7 @@ export class Markdown {
     };
     static Heading2 = (text: string): string => {
         return text.replace(
-            new RegExp(`## (.+?)${this._SpecialChars["<br/>"]}`, "g"),
+            new RegExp(`## (.+?)$\n?`, "gm"),
             (match, innerText) => {
                 return `<h2 class="text-3xl">${innerText}</h2>`;
             },
@@ -128,7 +129,7 @@ export class Markdown {
     };
     static Heading3 = (text: string): string => {
         return text.replace(
-            new RegExp(`### (.+?)${this._SpecialChars["<br/>"]}`, "g"),
+            new RegExp(`### (.+?)$\n?`, "gm"),
             (match, innerText) => {
                 return `<h3 class="text-2xl">${innerText}</h3>`;
             },
@@ -136,7 +137,7 @@ export class Markdown {
     };
     static Heading4 = (text: string): string => {
         return text.replace(
-            new RegExp(`#### (.+?)${this._SpecialChars["<br/>"]}`, "g"),
+            new RegExp(`#### (.+?)$\n?`, "gm"),
             (match, innerText) => {
                 return `<h4 class="text-xl">${innerText}</h4>`;
             },
@@ -145,7 +146,7 @@ export class Markdown {
 
     static BlockQuote = (text: string): string => {
         return text.replace(
-            new RegExp(`> (.+?)${this._SpecialChars["<br/>"]}`, "g"),
+            new RegExp(`>>? (.+?)$\n?`, "gm"),
             (match, innerText) => {
                 return `<blockquote class="italic font-semibold tracking-tight text-heading">"${innerText}"</blockquote>`;
             },
