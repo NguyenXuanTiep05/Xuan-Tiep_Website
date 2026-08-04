@@ -10,7 +10,7 @@ const TextEditor = () => {
     return (
         <div className="relative w-full h-full flex flex-row">
             <textarea
-                className=" inset-0 max-w-[50%] h-full px-6 py-12 placeholder:text-center resize-x scrollbar-none border-r border-(--border)"
+                className=" inset-0 w-[50%] max-w-[50%] h-full px-6 py-12 placeholder:text-center resize-x scrollbar-none border-r border-(--border)"
                 id="normalText"
                 autoCorrect="off"
                 value={text}
