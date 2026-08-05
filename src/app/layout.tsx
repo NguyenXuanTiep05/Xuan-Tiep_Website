@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./global.css";
-import Header from "@/components/shared/Header";
 
 import { Inter } from "next/font/google";
 
@@ -32,12 +31,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en" className={inter.className}>
-            <body>
-                <main id="root">
-                    <Header />
-                    {children}
-                </main>
-            </body>
+            <body>{children}</body>
         </html>
     );
 }

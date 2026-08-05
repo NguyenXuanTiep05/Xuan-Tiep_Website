@@ -59,6 +59,9 @@ body {
 #root {
     @apply flex w-full h-full pt-15 text-(--text);
 }
+#root.auth-layout {
+    @apply pt-0!;
+}
 
 .slide-in > * {
     animation: slide-in var(--slide-in-s) ease-in-out both;
