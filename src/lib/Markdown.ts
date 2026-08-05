@@ -4,7 +4,10 @@ export class Markdown {
         "<tab/>": "\t",
     };
 
+    static _references: Record<string, string[]> = {};
+
     static FormatText = (text: string) => {
+        text = this.ReferencesMatch(text);
         text = this.TextFormatting(text);
         text = this.TextBlocks(text);
         text = this.TextEmphasis(text);
@@ -76,6 +79,8 @@ export class Markdown {
         text = this.Paragraph(text);
         text = this.Picture(text);
         text = this.Link(text);
+
+        text = this.CheckBox(text);
         text = this.UnorderedList(text);
         text = this.OrderedList(text);
 
@@ -92,12 +97,6 @@ export class Markdown {
         return text;
     };
 
-    static HorizontalLine = (text: string): string => {
-        return text.replace(/^(?:-{3,}|\*{3,}|_{3,})\n/gm, (match) => {
-            return `<hr class="hr"/>`;
-        });
-    };
-
     static Headings = (text: string): string => {
         text = this.Heading4(text);
         text = this.Heading3(text);
@@ -105,6 +104,11 @@ export class Markdown {
         text = this.Heading1(text);
 
         return text;
+    };
+    static HorizontalLine = (text: string): string => {
+        return text.replace(/^(?:-{3,}|\*{3,}|_{3,})\n/gm, (match) => {
+            return `<hr class="hr"/>`;
+        });
     };
 
     static StrongText = (text: string): string => {
@@ -135,34 +139,34 @@ export class Markdown {
     };
 
     static Heading1 = (text: string): string => {
-        return text.replace(/# (.+?)$\n?/gm, (match, innerText) => {
+        return text.replace(/^#\s(.+?)$\n?/gm, (match, innerText) => {
             return `<h1 class="text-4xl">${innerText}</h1>`;
         });
     };
     static Heading2 = (text: string): string => {
-        return text.replace(/## (.+?)$\n?/gm, (match, innerText) => {
+        return text.replace(/^##\s(.+?)$\n?/gm, (match, innerText) => {
             return `<h2 class="text-3xl">${innerText}</h2>`;
         });
     };
     static Heading3 = (text: string): string => {
-        return text.replace(/### (.+?)$\n?/gm, (match, innerText) => {
+        return text.replace(/^###\s(.+?)$\n?/gm, (match, innerText) => {
             return `<h3 class="text-2xl">${innerText}</h3>`;
         });
     };
     static Heading4 = (text: string): string => {
-        return text.replace(/#### (.+?)$\n?/gm, (match, innerText) => {
+        return text.replace(/^####\s(.+?)$\n?/gm, (match, innerText) => {
             return `<h4 class="text-xl">${innerText}</h4>`;
         });
     };
 
     static BlockQuote = (text: string): string => {
-        return text.replace(/>>? (.+?)$\n?/gm, (match, innerText) => {
+        return text.replace(/^>>?\s(.+?)$\n?/gm, (match, innerText) => {
             return `<blockquote class="italic font-semibold tracking-tight text-heading">"${innerText}"</blockquote>`;
         });
     };
     static Paragraph = (text: string): string => {
         return text.replace(
-            /```(\w+)?\n?([\s\S]+?)\n```/gm,
+            /^```(\w+)?\n?([\s\S]+?)\n```/gm,
             (match, lang, innerText) => {
                 const language = lang || "text";
                 const code = lang == null ? "paragraph" : "code";
@@ -172,14 +176,59 @@ export class Markdown {
     };
 
     static Link = (text: string): string => {
-        return text.replace(/\[(.+)\]\((.+)\)/gm, (match, label, link) => {
-            return `<a href="${link}">${label}</a>`;
-        });
+        text = text.replace(
+            /\[([^\]]+)\]\(([^\)]\S+)(?:\s+"([^"]*)")?\)?/g,
+            (match, label, link, hover) => {
+                return `<a class="links" href="${link}" title="${hover ?? ""}">${label}</a>`;
+            },
+        );
+        text = text.replace(
+            /\[([^\]]+)\]\[([^\]]+)\]/g, // <- was [^\)]+, fixed to [^\]]+
+            (match, label, id) => {
+                const url = this._references[id]?.[0] ?? "";
+                const title = this._references[id]?.[1] ?? "";
+                return `<a class="links" href="${url}" title="${title}">${label}</a>`;
+            },
+        );
+        return text;
     };
     static Picture = (text: string): string => {
-        return text.replace(/\!\[(.+)\]\((.+)\)/g, (match, label, link) => {
-            return `<img src="${link}" alt="${label}"></img>`;
-        });
+        text = text.replace(
+            /\!\[([^\]]+)\]\(([^\)]+)\)/g,
+            (match, label, link) => {
+                return `<img src="${link}" alt="${label}"></img>`;
+            },
+        );
+        text = text.replace(
+            /\!\[([^\]]+)\]\[([^\]]+)\]/g,
+            (match, label, id) => {
+                return `<img src="${this._references[id]?.[0] ?? ""}" title="${this._references[id]?.[1] ?? ""}" alt="${label}"></img>`;
+            },
+        );
+
+        return text;
+    };
+
+    static CheckBox = (text: string): string => {
+        return text.replace(
+            /\[([ xX])\]\s(.+)$/gm,
+            (match, isChecked, innerText) => {
+                const checked =
+                    isChecked.toLowerCase() === "x" ? "checked" : "";
+                return `<input type="checkbox" ${checked} onclick="return false;"/> ${innerText}`;
+            },
+        );
+    };
+
+    static ReferencesMatch = (text: string): string => {
+        text = text.replace(
+            /\[([^\]]+)\]:\s+(\S+)(?:\s+"([^"]*)")?\n?/g,
+            (match, id, link, title) => {
+                this._references[id] = [link, title ?? null];
+                return "";
+            },
+        );
+        return text;
     };
 
     static UnorderedList = (text: string): string => {

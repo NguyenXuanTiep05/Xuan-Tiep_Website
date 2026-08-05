@@ -24,3 +24,7 @@ ul {
 ol {
     @apply list-decimal list-inside space-y-1 mb-4;
 }
+
+.links {
+    @apply underline;
+}

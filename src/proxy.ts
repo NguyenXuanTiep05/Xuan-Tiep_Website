@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function proxy(request: NextRequest) {
-    // if (process.env.NODE_ENV === "development") {
-    //     return NextResponse.next();
-    // }
+    if (process.env.NODE_ENV === "development") {
+        return NextResponse.next();
+    }
 
     const isLoggedIn = request.cookies.has("token");
     const { pathname } = request.nextUrl;
