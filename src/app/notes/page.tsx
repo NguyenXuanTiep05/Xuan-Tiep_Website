@@ -1,5 +1,4 @@
 import NotesView from "@/view/NotesView";
-import Header from "@/components/shared/Header";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,10 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default async function FinancePage() {
-    return (
-        <section className="w-full h-full pt-15 text-(--text)">
-            <Header />
-            <NotesView />
-        </section>
-    );
+    return <NotesView />;
 }
