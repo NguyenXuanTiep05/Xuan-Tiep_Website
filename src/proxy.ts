@@ -12,7 +12,11 @@ export function proxy(request: NextRequest) {
     if (!isLoggedIn && pathname !== "/login") {
         const loginUrl = new URL("/login", request.url);
         const response = NextResponse.redirect(loginUrl);
-        response.cookies.set("callbackUrl", pathname, { maxAge: 300 });
+        response.cookies.set("callbackUrl", pathname, {
+            maxAge: 300,
+            httpOnly: true,
+            secure: true,
+        });
         return response;
     }
     if (isLoggedIn && pathname === "/login") {
