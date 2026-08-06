@@ -50,9 +50,9 @@ const FinanceOverview = () => {
                     {expenses} {curr}
                 </h3>
             </div>
-            <div className="w-full h-4 bg-(--bg-light)">
+            <div className="w-full h-4 bg-(--bg-light) rounded-md overflow-hidden">
                 <div
-                    className="fill h-full bg-(--warning) rounded-md"
+                    className="fill h-full bg-(--warning)"
                     style={{ width: `${procent}%` }}
                 ></div>
             </div>
@@ -63,8 +63,8 @@ const FinanceOverview = () => {
                 </h3>
             </div>
 
-            <div className=" w-full h-4 bg-(--bg-light)">
-                <div className="fill w-full h-full bg-(--success) rounded-md"></div>
+            <div className=" w-full h-4 bg-(--bg-light) rounded-md overflow-hidden">
+                <div className="fill w-full h-full bg-(--success)"></div>
             </div>
         </article>
     );

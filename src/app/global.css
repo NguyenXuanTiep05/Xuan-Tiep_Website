@@ -20,7 +20,7 @@
     --success: hsl(118, 100%, 33%);
 
     --slide-in-s: 0.2s;
-    --slide-in-delayed-s: var(--slide-in-s) + 0.2s;
+    --slide-in-delayed-s: calc(var(--slide-in-s) + 0.2s);
 
     --main-bg: radial-gradient(
         50% 20% at 50% 100%,
