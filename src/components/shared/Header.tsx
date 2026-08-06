@@ -2,7 +2,8 @@
 import { useState } from "react";
 import Link from "next/link";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import "@/assets/Header.css";
 
 const Header = () => {
     const [error, setError] = useState<string | null>(null);
@@ -28,6 +29,11 @@ const Header = () => {
             setError(`Something went wrong`);
         }
     };
+    const tabs = [
+        { label: "Finance", href: "/finance" },
+        { label: "Notes", href: "/notes" },
+    ];
+    const pathname = usePathname();
 
     return (
         <nav className="absolute top-0 w-full h-15 border-b border-(--border) flex items-center px-14 z-50">
@@ -38,19 +44,20 @@ const Header = () => {
                 <h1>Xuan Tiep</h1>
             </Link>
             <span>{error}</span>
-            <div className="ml-auto flex flex-row justify-center items-center gap-8">
-                <Link
-                    href="/finance"
-                    className="flex items-center font-bold text-(--text-lighter)  text-xl hover:-translate-y-0.5 hover:text-(--text) transition-all duration-150"
-                >
-                    Finances
-                </Link>
-                <Link
-                    href="/notes"
-                    className="flex items-center font-bold text-(--text-lighter)  text-xl hover:-translate-y-0.5 hover:text-(--text) transition-all duration-150"
-                >
-                    Notes
-                </Link>
+            <div className="ml-auto flex flex-row justify-center items-center gap-8 w-auto">
+                {tabs.map((tab) => (
+                    <Link
+                        key={tab.href}
+                        href={tab.href}
+                        className={
+                            pathname === tab.href
+                                ? "header_link active"
+                                : "header_link"
+                        }
+                    >
+                        {tab.label}
+                    </Link>
+                ))}
             </div>
             <button
                 onClick={() => LogOut()}

@@ -1,8 +1,7 @@
 /* #markdownText::after {
     content: "|";
 } */
-@import "tailwindcss";
-@tailwind utilities;
+@reference "../app/global.css";
 @source inline("text-4xl text-3xl text-2xl text-xl italic font-semibold tracking-tight text-heading font-mono text-sm bg-gray-800 text-pink-400 px-1.5 py-0.5 rounded dark:bg-gray-800 dark:text-pink-400 line-through");
 
 .code {

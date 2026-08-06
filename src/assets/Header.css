@@ -1,0 +1,8 @@
+@reference "../app/global.css";
+.header_link {
+    @apply flex items-center font-bold text-(--text-lighter) border-2 border-transparent text-xl hover:border-b-blue-300/50  transition-all duration-150;
+}
+
+.header_link.active {
+    @apply text-(--text) border-b-blue-300;
+}
