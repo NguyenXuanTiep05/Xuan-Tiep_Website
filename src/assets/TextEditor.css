@@ -6,11 +6,14 @@
 @source inline("text-4xl text-3xl text-2xl text-xl italic font-semibold tracking-tight text-heading font-mono text-sm bg-gray-800 text-pink-400 px-1.5 py-0.5 rounded dark:bg-gray-800 dark:text-pink-400 line-through");
 
 .code {
-    @apply font-mono text-sm bg-gray-800 text-pink-400 px-1.5 py-0.5 rounded wrap-break-word;
+    @apply font-mono text-sm bg-gray-800 text-pink-400 px-1.5 py-0.5 rounded overflow-x-auto;
 }
 
 .paragraph {
-    @apply text-sm leading-relaxed bg-gray-800 rounded text-gray-200 px-1.5 py-0.5;
+    @apply text-sm leading-relaxed bg-(--bg) rounded text-gray-200 px-1.5 py-0.5 whitespace-pre-wrap;
+}
+.paragraph > p {
+    @apply wrap-break-word whitespace-pre-wrap;
 }
 
 .hr {

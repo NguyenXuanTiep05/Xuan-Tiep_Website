@@ -5,14 +5,18 @@ export class Markdown {
     };
 
     static _references: Record<string, string[]> = {};
+    static _protected: string[] = [];
 
     static FormatText = (text: string) => {
+        this._protected = [];
+
         text = this.ReferencesMatch(text);
         text = this.TextFormatting(text);
         text = this.TextBlocks(text);
         text = this.TextEmphasis(text);
         text = this.Headings(text);
         text = this.FormatSpecialChars(text, this._SpecialChars);
+        text = this.Restore(text);
         return text;
     };
 
@@ -81,8 +85,7 @@ export class Markdown {
         text = this.Link(text);
 
         text = this.CheckBox(text);
-        text = this.UnorderedList(text);
-        text = this.OrderedList(text);
+        text = this.List(text);
 
         return text;
     };
@@ -105,6 +108,19 @@ export class Markdown {
 
         return text;
     };
+
+    static Protect = (html: string): string => {
+        const token = `\u0000${this._protected.length}\u0000`;
+        this._protected.push(html);
+        return token;
+    };
+
+    static Restore = (text: string): string => {
+        return text.replace(/\u0000(\d+)\u0000/g, (match, idx) => {
+            return this._protected[Number(idx)] ?? match;
+        });
+    };
+
     static HorizontalLine = (text: string): string => {
         return text.replace(/^(?:-{3,}|\*{3,}|_{3,})\n/gm, (match) => {
             return `<hr class="hr"/>`;
@@ -161,16 +177,20 @@ export class Markdown {
 
     static BlockQuote = (text: string): string => {
         return text.replace(/^>>?\s(.+?)$\n?/gm, (match, innerText) => {
-            return `<blockquote class="italic font-semibold tracking-tight text-heading">"${innerText}"</blockquote>`;
+            const html = `<blockquote class="italic font-semibold tracking-tight text-heading">"${innerText}"</blockquote>`;
+            return this.Protect(html);
         });
     };
+
     static Paragraph = (text: string): string => {
         return text.replace(
             /^```(\w+)?\n?([\s\S]+?)\n```/gm,
             (match, lang, innerText) => {
                 const language = lang || "text";
                 const code = lang == null ? "paragraph" : "code";
-                return `\n<pre  class="language-${language} ${code} "><code>${innerText.trim()}</code></pre>`;
+                const htmlTag = lang == null ? "p" : "code";
+                const html = `\n<pre class="language-${language} ${code} "><${htmlTag}>${innerText.trim()}</${htmlTag}></pre>`;
+                return this.Protect(html);
             },
         );
     };
@@ -182,14 +202,11 @@ export class Markdown {
                 return `<a class="links" href="${link}" title="${hover ?? ""}">${label}</a>`;
             },
         );
-        text = text.replace(
-            /\[([^\]]+)\]\[([^\]]+)\]/g, // <- was [^\)]+, fixed to [^\]]+
-            (match, label, id) => {
-                const url = this._references[id]?.[0] ?? "";
-                const title = this._references[id]?.[1] ?? "";
-                return `<a class="links" href="${url}" title="${title}">${label}</a>`;
-            },
-        );
+        text = text.replace(/\[([^\]]+)\]\[([^\]]+)\]/g, (match, label, id) => {
+            const url = this._references[id]?.[0] ?? "";
+            const title = this._references[id]?.[1] ?? "";
+            return `<a class="links" href="${url}" title="${title}">${label}</a>`;
+        });
         return text;
     };
     static Picture = (text: string): string => {
@@ -231,45 +248,47 @@ export class Markdown {
         return text;
     };
 
-    static UnorderedList = (text: string): string => {
-        return text.replace(/^(?:[ \t]*[-*+] .+\n?)+/gm, (block) => {
-            return this.BuildNestedList(block, /^[-*+] /);
-        });
+    static ListMarker = /^[ \t]*(?:[-*+]|\d+\.)\s+.+$/;
+
+    static List = (text: string): string => {
+        return text.replace(/^(?:[ \t]*(?:[-*+]|\d+\.)\s+.+\n?)+/gm, (block) =>
+            this.BuildNestedList(block),
+        );
     };
 
-    static OrderedList = (text: string): string => {
-        return text.replace(/^(?:[ \t]*\d+\. .+\n?)+/gm, (block) => {
-            return this.BuildNestedList(block, /^\d+\. /);
-        });
-    };
-
-    static BuildNestedList = (block: string, markerRegex: RegExp): string => {
+    static BuildNestedList = (block: string): string => {
         const lines = block.replace(/\n$/, "").split("\n");
-        const isOrdered = markerRegex.source.includes("\\d");
-        const tag = isOrdered ? "ol" : "ul";
-        const listClass = isOrdered
-            ? "list-decimal list-inside space-y-1 mb-4"
-            : "list-disc list-inside space-y-1 mb-4";
-
+        const stack: { indent: number; tag: string }[] = [];
         let html = "";
-        const stack: number[] = []; // tracks indent levels currently open
+
+        const tagFor = (line: string) =>
+            /^\s*\d+\.\s/.test(line) ? "ol" : "ul";
+        const classFor = (tag: string) =>
+            tag === "ol"
+                ? "list-decimal list-inside space-y-1 mb-4"
+                : "list-disc list-inside space-y-1 mb-4";
 
         for (const line of lines) {
-            const indentMatch = line.match(/^[ \t]*/);
-            const indent = indentMatch ? indentMatch[0].length : 0;
+            const indent = line.match(/^[ \t]*/)?.[0].length ?? 0;
+            const tag = tagFor(line);
             const content = line
                 .replace(/^[ \t]*/, "")
-                .replace(markerRegex, "")
+                .replace(/^(?:[-*+]|\d+\.)\s+/, "")
                 .trim();
 
-            while (stack.length && indent < stack[stack.length - 1]) {
-                html += `</li></${tag}>`;
-                stack.pop();
+            while (
+                stack.length &&
+                (indent < stack[stack.length - 1].indent ||
+                    (indent === stack[stack.length - 1].indent &&
+                        tag !== stack[stack.length - 1].tag))
+            ) {
+                const closed = stack.pop()!;
+                html += `</li></${closed.tag}>`;
             }
 
-            if (!stack.length || indent > stack[stack.length - 1]) {
-                html += `<${tag} class="${listClass} ${stack.length ? "ml-4" : ""}">`;
-                stack.push(indent);
+            if (!stack.length || indent > stack[stack.length - 1].indent) {
+                html += `<${tag} class="${classFor(tag)} ${stack.length ? "ml-4" : ""}">`;
+                stack.push({ indent, tag });
             } else {
                 html += `</li>`;
             }
@@ -277,7 +296,8 @@ export class Markdown {
             html += `<li>${content}`;
         }
 
-        html += `</li>` + `</${tag}>`.repeat(stack.length);
+        html += `</li>`;
+        while (stack.length) html += `</${stack.pop()!.tag}>`;
         return html;
     };
 }
