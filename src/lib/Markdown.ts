@@ -257,6 +257,7 @@ export class Markdown {
     };
 
     static BuildNestedList = (block: string): string => {
+        const hadTrailingNewline = /\n$/.test(block);
         const lines = block.replace(/\n$/, "").split("\n");
         const stack: { indent: number; tag: string }[] = [];
         let html = "";
@@ -298,6 +299,6 @@ export class Markdown {
 
         html += `</li>`;
         while (stack.length) html += `</${stack.pop()!.tag}>`;
-        return html;
+        return html + (hadTrailingNewline ? "\n" : "");
     };
 }
