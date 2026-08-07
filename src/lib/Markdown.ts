@@ -197,7 +197,7 @@ export class Markdown {
 
     static Link = (text: string): string => {
         text = text.replace(
-            /\[([^\]]+)\]\(([^\)]\S+)(?:\s+"([^"]*)")?\)?/g,
+            /\[([^\]]+)\]\(([^\s)]+)(?:\s+"([^"]*)")?\)?/g,
             (match, label, link, hover) => {
                 return `<a class="links" href="${link}" title="${hover ?? ""}">${label}</a>`;
             },
