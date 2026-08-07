@@ -1,7 +1,7 @@
 export class Markdown {
     static _SpecialChars: Record<string, string> = {
         "<br/>": "\n",
-        "<tab/>": "\t",
+        "&emsp;": "\t",
     };
 
     static _references: Record<string, string[]> = {};
@@ -32,7 +32,7 @@ export class Markdown {
 
         if (e.key === "Tab") {
             e.preventDefault();
-            const insertText = this._SpecialChars["<tab/>"];
+            const insertText = this._SpecialChars["&emsp;"];
             newText = this.InsertAtIndex(text, cursorPos, insertText);
             newCursorPos = cursorPos + insertText.length;
             setTextS(newText);
