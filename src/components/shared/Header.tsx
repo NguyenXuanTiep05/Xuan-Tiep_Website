@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import { usePathname, useRouter } from "next/navigation";
 import "@/assets/Header.css";
-import { HtmlContext } from "next/dist/server/route-modules/pages/vendored/contexts/entrypoints";
 
 const Header = () => {
 	const [error, setError] = useState<string | null>(null);
@@ -42,7 +41,7 @@ const Header = () => {
 		<nav className="absolute top-0 w-full h-15 border-b border-(--border) flex items-center px-14 z-50">
 			<Link
 				href="/dashboard"
-				className="absolute translate-x-16 text-3xl font-bold hover:-translate-y-0.5 transition-transform duration-100 text-(--text) "
+				className="absolute translate-x-2 text-2xl font-bold hover:-translate-y-0.5 transition-transform duration-100 text-(--text) "
 			>
 				<h1>Xuan Tiep</h1>
 			</Link>
@@ -66,7 +65,7 @@ const Header = () => {
 					</div>
 					<button
 						onClick={() => LogOut()}
-						className="ml-auto text-(--text-muted) cursor-pointer hover:text-(--text) hover:font-bold transition-all duration-150"
+						className="text-base ml-auto text-(--text-muted) cursor-pointer hover:text-(--text) transition-all duration-150"
 					>
 						Log out
 					</button>
