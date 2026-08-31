@@ -32,7 +32,7 @@ const Header = () => {
         }
     };
     const tabs = [
-        { label: "Resume", href: "/" },
+        // { label: "Resume", href: "/" },
         { label: "Finance", href: "/finance" },
         { label: "Notes", href: "/notes" },
     ];
