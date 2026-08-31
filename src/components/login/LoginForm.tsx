@@ -19,7 +19,7 @@ const LoginForm = () => {
     const [callbackUrl, setCallbackUrl] = useState(() => {
         if (typeof document === "undefined") return "/"; // SSR guard
         const match = document.cookie.match(/callbackUrl=([^;]+)/);
-        return match ? decodeURIComponent(match[1]) : "/";
+        return match ? decodeURIComponent(match[1]) : "/dashboard";
     });
     const router = useRouter();
 
