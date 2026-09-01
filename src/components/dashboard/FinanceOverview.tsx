@@ -30,8 +30,8 @@ const FinanceOverview = () => {
         return () => controller.abort();
     }, []);
 
-    const income = 500;
-    const expenses = -300;
+    const income = data?.totalIncome;
+    const expenses = -data?.totalExpenses;
     const curr = data!.currency;
     const SpendBigger = Math.abs(expenses) >= income;
     let procent = (Math.abs(expenses) * 100) / income;
