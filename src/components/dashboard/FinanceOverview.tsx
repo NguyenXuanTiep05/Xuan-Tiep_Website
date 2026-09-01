@@ -36,7 +36,7 @@ const FinanceOverview = () => {
     const SpendBigger = Math.abs(expenses) > income;
     const procent =
         (Math.abs(SpendBigger ? income : expenses) * 100) /
-        (SpendBigger ? expenses : income);
+        Math.abs(SpendBigger ? expenses : income);
 
     return (
         <article className="w-[30%] card self-start">
