@@ -30,10 +30,14 @@ const FinanceOverview = () => {
         return () => controller.abort();
     }, []);
 
-    const income = data!.totalIncome;
-    const expenses = data!.totalExpenses;
+    const income = 500;
+    const expenses = -300;
     const curr = data!.currency;
-    const procent = (Math.abs(expenses) * 100) / income;
+    const SpendBigger = Math.abs(expenses) >= income;
+    let procent = (Math.abs(expenses) * 100) / income;
+    if (SpendBigger) {
+        procent = Math.abs(100 - procent);
+    }
 
     return (
         <article className="w-[30%] card self-start">
@@ -53,7 +57,7 @@ const FinanceOverview = () => {
             <div className="w-full h-4 bg-(--bg-light) rounded-md overflow-hidden">
                 <div
                     className="fill h-full bg-(--warning)"
-                    style={{ width: `${procent}%` }}
+                    style={{ width: `${SpendBigger ? 100 : procent}%` }}
                 ></div>
             </div>
             <div className="mt-5 mb-1 w-full flex flex-row">
@@ -64,7 +68,10 @@ const FinanceOverview = () => {
             </div>
 
             <div className=" w-full h-4 bg-(--bg-light) rounded-md overflow-hidden">
-                <div className="fill w-full h-full bg-(--success)"></div>
+                <div
+                    className="fill h-full bg-(--success)"
+                    style={{ width: `${!SpendBigger ? 100 : procent}%` }}
+                ></div>
             </div>
         </article>
     );
