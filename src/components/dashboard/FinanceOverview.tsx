@@ -33,7 +33,7 @@ const FinanceOverview = () => {
     const income = data?.totalIncome;
     const expenses = -data?.totalExpenses;
     const curr = data!.currency;
-    const SpendBigger = Math.abs(expenses) >= income;
+    const SpendBigger = Math.abs(expenses) > income;
     let procent = (Math.abs(expenses) * 100) / income;
     if (SpendBigger) {
         procent = Math.abs(100 - procent);
