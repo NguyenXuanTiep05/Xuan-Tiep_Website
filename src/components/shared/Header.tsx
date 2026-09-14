@@ -38,7 +38,7 @@ const Header = () => {
     ];
 
     return (
-        <nav className="absolute top-0 w-full h-15 border-b border-(--border) flex items-center px-14 z-50">
+        <nav className="absolute top-0 w-full h-(--spacing-header) border-b border-(--border) flex items-center px-14 z-50">
             <Link
                 href={!isMainPage ? "/" : "/dashboard"}
                 className="absolute translate-x-2 text-2xl font-bold hover:-translate-y-0.5 transition-transform duration-100 text-(--text) "

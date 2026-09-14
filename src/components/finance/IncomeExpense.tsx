@@ -14,7 +14,7 @@ const IncomeExpense = ({
         <article className={`w-[40%] card ${left ? "ml-auto" : ""}`}>
             <h2 className="h4 text-(--text-lighter)">{title}</h2>
             <p
-                className={`h3 ${amount > 0 ? "text-(--success)" : "text-(--warning)"}`}
+                className={`h3 ${amount > 0 ? "text-(--success-text)" : "text-(--warning-text)"}`}
             >
                 {amount} CZK
             </p>

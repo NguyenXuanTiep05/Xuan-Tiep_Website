@@ -49,26 +49,26 @@ const FinanceOverview = () => {
 
             <div className="mt-5 mb-1 w-full flex flex-row">
                 <h3 className="font-medium text-md">Spending</h3>
-                <h3 className="ml-auto font-medium text-md text-(--success)">
+                <h3 className="ml-auto font-medium text-md text-(--success-text)">
                     {expenses} {curr}
                 </h3>
             </div>
             <div className="w-full h-4 bg-(--bg-light) rounded-md overflow-hidden">
                 <div
-                    className="fill h-full bg-(--warning)"
+                    className="fill h-full bg-(--color-negative)"
                     style={{ width: `${SpendBigger ? 100 : procent}%` }}
                 ></div>
             </div>
             <div className="mt-5 mb-1 w-full flex flex-row">
                 <h3 className="font-medium text-md">Income</h3>
-                <h3 className="ml-auto font-medium text-md text-(--success)">
+                <h3 className="ml-auto font-medium text-md text-(--success-text)">
                     {income} {curr}
                 </h3>
             </div>
 
             <div className=" w-full h-4 bg-(--bg-light) rounded-md overflow-hidden">
                 <div
-                    className="fill h-full bg-(--success)"
+                    className="fill h-full bg-(--color-positive)"
                     style={{ width: `${!SpendBigger ? 100 : procent}%` }}
                 ></div>
             </div>

@@ -35,6 +35,88 @@ const ArrowRight = ({ size = 30, className = "" }) => (
         <path d="M12 5l7 7-7 7" />
     </svg>
 );
+const financeChanges: FinanceChangeDto[] = [
+    {
+        recordId: 1,
+        value: 2500,
+        currency: "USD",
+        description: "Monthly salary",
+        date: "2026-09-01",
+        type: "income",
+    },
+    {
+        recordId: 2,
+        value: 950,
+        currency: "USD",
+        description: "Rent",
+        date: "2026-09-02",
+        type: "expense",
+    },
+    {
+        recordId: 3,
+        value: 78.4,
+        currency: "USD",
+        description: "Groceries",
+        date: "2026-09-03",
+        type: "expense",
+    },
+    {
+        recordId: 4,
+        value: 12.99,
+        currency: "USD",
+        description: "Streaming subscription",
+        date: "2026-09-04",
+        type: "expense",
+    },
+    {
+        recordId: 5,
+        value: 400,
+        currency: "USD",
+        description: "Freelance project",
+        date: "2026-09-05",
+        type: "income",
+    },
+    {
+        recordId: 6,
+        value: 45,
+        currency: "EUR",
+        description: "Train ticket",
+        date: "2026-09-06",
+        type: "expense",
+    },
+    {
+        recordId: 7,
+        value: 130.5,
+        currency: "USD",
+        description: "Electricity bill",
+        date: "2026-09-08",
+        type: "expense",
+    },
+    {
+        recordId: 8,
+        value: 60,
+        currency: "USD",
+        description: "Dinner with friends",
+        date: "2026-09-10",
+        type: "expense",
+    },
+    {
+        recordId: 9,
+        value: 150,
+        currency: "USD",
+        description: "Dividends",
+        date: "2026-09-11",
+        type: "income",
+    },
+    {
+        recordId: 10,
+        value: 89.99,
+        currency: "USD",
+        description: "New headphones",
+        date: "2026-09-12",
+        type: "expense",
+    },
+];
 
 const FinanceList = ({
     History,
@@ -63,16 +145,13 @@ const FinanceList = ({
                             <th className="px-8 py-4 font-medium text-(--text-lighter)">
                                 Datum
                             </th>
-
-                            <th className="px-8 py-4 font-medium text-(--text-lighter)">
-                                Value
-                            </th>
-                            <th className="px-8 py-4 text-left font-medium text-(--text-lighter)">
+                            <th className="px-8 text-left font-medium text-(--text-lighter)">
                                 Description
                             </th>
-                            <th className="px-8 py-4 text-right font-medium text-(--text-lighter)">
-                                Options
+                            <th className="px-8 font-medium text-(--text-lighter)">
+                                Value
                             </th>
+                            <th className="px-8 text-right font-medium text-(--text-lighter)"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -89,9 +168,9 @@ const FinanceList = ({
                             History.map((val, i) => (
                                 <tr
                                     key={i}
-                                    className="border-t  border-(--text-muted) hover:bg-(--bg)"
+                                    className="border-t  border-(--border) hover:bg-(--bg-light)"
                                 >
-                                    <td className="w-12 px-4 py-4">
+                                    <td className="w-12 px-4">
                                         <div className="flex items-center justify-center">
                                             {val.value > 0 ? (
                                                 <ArrowRight />
@@ -100,12 +179,7 @@ const FinanceList = ({
                                             )}
                                         </div>
                                     </td>
-                                    <td
-                                        className={`w-1/6 text-center px-8 py-4 ${val.value > 0 ? "text-(--success)" : "text-(--warning)"}`}
-                                    >
-                                        {val.value} {val.currency}
-                                    </td>
-                                    <td className="w-1/6 px-8 py-4 text-(--text-muted)">
+                                    <td className="w-1/6 px-8 text-(--text-muted)">
                                         {new Date(val.date).toLocaleString(
                                             "en-GB",
                                             {
@@ -117,8 +191,13 @@ const FinanceList = ({
                                             },
                                         )}
                                     </td>
-                                    <td className="w-auto px-8 py-4 text-(--text)">
+                                    <td className="w-auto px-8 text-(--text)">
                                         {val.description}
+                                    </td>
+                                    <td
+                                        className={`w-1/6 text-center px-8 ${val.value > 0 ? "text-(--success-text)" : "text-(--warning-text)"}`}
+                                    >
+                                        {val.value} {val.currency}
                                     </td>
                                     <td className="w-auto p-4 text-right">
                                         <button
@@ -128,9 +207,9 @@ const FinanceList = ({
                                                     val.type,
                                                 )
                                             }
-                                            className="warning-btn"
+                                            className=" btn btn-sm hover:bg-(--bg-hover)"
                                         >
-                                            Delete
+                                            &#x2715;
                                         </button>
                                     </td>
                                 </tr>

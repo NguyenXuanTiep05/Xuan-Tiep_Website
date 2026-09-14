@@ -6,7 +6,7 @@ const Balance = ({ amount }: { amount: number }) => {
         <article className="w-full card">
             <h2 className="h3 text-(--text-lighter)">Balance</h2>
             <p
-                className={`h2 ${amount > 0 ? "text-(--success)" : "text-(--warning)"}`}
+                className={`h2 ${amount > 0 ? "text-(--success-text)" : "text-(--warning-text)"}`}
             >
                 {amount} CZK
             </p>

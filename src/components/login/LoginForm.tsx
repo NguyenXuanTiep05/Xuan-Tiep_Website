@@ -84,7 +84,7 @@ const LoginForm = () => {
                     <button
                         type="submit"
                         id="login-btn"
-                        className="primary-btn ml-auto mt-6"
+                        className="primary-btn btn ml-auto mt-6"
                     >
                         Log in
                     </button>
