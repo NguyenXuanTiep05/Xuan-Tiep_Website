@@ -38,7 +38,7 @@ const Header = () => {
     ];
 
     return (
-        <nav className="absolute top-0 w-full h-(--spacing-header) border-b border-(--border) flex items-center px-14 z-50 max-tablet:px-4 max-tablet:h-19 max-tablet:items-baseline max-tablet:pt-3 ">
+        <nav className="absolute top-0 w-full h-(--spacing-header) border-b border-(--border) flex items-center px-14 z-50 bg-(--bg-dark) max-tablet:px-4 max-tablet:h-19 max-tablet:items-baseline max-tablet:pt-3 ">
             <Link
                 href={!isMainPage ? "/" : "/dashboard"}
                 className="absolute translate-x-2 text-2xl font-bold hover:-translate-y-0.5 transition-transform duration-100 text-(--text) "
@@ -48,7 +48,7 @@ const Header = () => {
             <span>{error}</span>
             {isMainPage ? (
                 <>
-                    <div className="ml-auto flex flex-row justify-center items-center gap-8 w-auto select-none max-tablet:gap-3 max-tablet:absolute max-tablet:left-5.5 max-tablet:top-12">
+                    <div className="ml-auto flex flex-row justify-center items-center gap-8 w-auto select-none max-tablet:gap-3 max-tablet:absolute max-tablet:left-5.5 max-tablet:top-12 ">
                         {tabs.map((tab) => (
                             <Link
                                 key={tab.href}
