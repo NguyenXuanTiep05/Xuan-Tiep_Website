@@ -81,7 +81,7 @@ const LoginForm = () => {
 
                 <div className=" flex w-100% max-tablet:flex-col">
                     <div className="text-(--warning-text) ml-2 mt-6 flex items-center">
-                        {error}sdasdadsa
+                        {error}
                     </div>
                     <button
                         type="submit"
