@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+@theme {
+    --breakpoint-phone: 375px;
+    --breakpoint-phone-sm: 320px;
+    --breakpoint-laptop: 1340px;
+    --breakpoint-tablet: 930px;
+    --breakpoint-tablet-sm: 690px;
+    --breakpoint-phone: 470px;
+}
+
 :root {
     --bg-dark: hsl(0, 0%, 0%);
     --bg: hsl(0, 0%, 4%);

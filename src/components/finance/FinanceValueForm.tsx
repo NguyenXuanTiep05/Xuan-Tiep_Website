@@ -54,56 +54,60 @@ export default function FinanceValueForm({
             onSubmit={HandleSubmit}
             className={`w-full h-fit card flex flex-col `}
         >
-            <div
-                onClick={() => {
-                    setMode(!mode);
-                }}
-                className="w-fit mb-4 flex flex-row rounded-md bg-(--bg-light) cursor-pointer"
-            >
-                <span
-                    className={`primary-btn btn rounded-l-md! rounded-r-none! px-4 py-2 pointer-events-none ${mode ? "" : "bg-transparent!"}`}
+            <div className=" flex flex-row max-phone:flex-col">
+                <h2 className="h2">Add Record </h2>
+                <div
+                    onClick={() => {
+                        setMode(!mode);
+                    }}
+                    className="w-fit mb-4 flex flex-row rounded-md bg-(--bg-light) cursor-pointer ml-auto max-phone:ml-0 max-phone:mt-2"
                 >
-                    Income
-                </span>
-                <span
-                    className={`primary-btn btn rounded-r-md! rounded-l-none! px-4 py-2 pointer-events-none ${!mode ? "" : "bg-transparent!"}`}
-                >
-                    Expense
-                </span>
+                    <span
+                        className={`primary-btn btn rounded-l-md! rounded-r-none! px-2 py-1 pointer-events-none ${mode ? "" : "bg-transparent!"} max-phone:px-4 max-phone:py-2`}
+                    >
+                        Income
+                    </span>
+                    <span
+                        className={`primary-btn btn rounded-r-md! rounded-l-none! px-2 py-1 pointer-events-none ${!mode ? "" : "bg-transparent!"} max-phone:px-4 max-phone:py-2`}
+                    >
+                        Expense
+                    </span>
+                </div>
             </div>
             <div className="w-full flex flex-row gap-4 items-center">
-                <div className="w-full flex items-center">
-                    <span className="translate-x-[155%] text-(--text-muted) pointer-events-none select-none">
-                        Kč
-                    </span>
-                    <input
-                        name="value"
-                        type="number"
-                        className="w-1/3 input-primary pl-10! text-xl pr-8 py-2 mr-4"
-                        autoComplete="off"
-                        placeholder="Enter amount..."
-                        value={val}
-                        onChange={(e) => setVal(e.target.value)}
-                    />
+                <div className="w-full flex items-center max-laptop:flex-col max-laptop:gap-2">
+                    <div className=" flex flex-1 items-center max-laptop:w-full">
+                        <span className="translate-x-[65%] absolute text-(--text-muted) pointer-events-none select-none">
+                            Kč
+                        </span>
+                        <input
+                            name="value"
+                            type="number"
+                            className="w-full input-primary pl-10! text-md pr-8 py-1 mr-4 max-phone:text-xl"
+                            autoComplete="off"
+                            placeholder="Enter amount..."
+                            value={val}
+                            onChange={(e) => setVal(e.target.value)}
+                        />
+                    </div>
                     <input
                         name="description"
                         type="text"
-                        className="flex-1 input-primary text-xl pr-8 py-2 ml-px"
+                        className="flex-1 input-primary text-md pr-8 py-1 ml-px max-laptop:w-full max-phone:text-xl"
                         autoComplete="off"
                         placeholder="Enter description..."
                         value={desc}
                         onChange={(e) => setDesc(e.target.value)}
                     />
                 </div>
-
-                <button
-                    className="ml-auto primary-btn btn w-fit py-3 px-8"
-                    type="submit"
-                    disabled={val.trim() == "" || submitting}
-                >
-                    Save
-                </button>
             </div>
+            <button
+                className="ml-auto primary-btn btn w-fit py-1 px-4 mt-2 max-phone:py-2 max-phone:px-6"
+                type="submit"
+                disabled={val.trim() == "" || submitting}
+            >
+                Save
+            </button>
         </form>
     );
 }

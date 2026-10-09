@@ -140,18 +140,16 @@ const FinanceList = ({
             <article className="h-full w-full card p-0! overflow-y-scroll overflow-x-hidden no-scrollbar">
                 <table className="w-full table-auto border-collapse">
                     <thead className="sticky top-0 bg-(--bg)">
-                        <tr className="border-b border-(--highlight)">
-                            <th className="w-fit"></th>
-                            <th className="px-8 py-4 font-medium text-(--text-lighter)">
+                        <tr className="border-b border-(--highlight) font-medium text-(--text-lighter)">
+                            <th className="w-fit max-tablet:hidden"></th>
+                            <th className="w-px whitespace-nowrap max-tablet-sm:hidden">
                                 Datum
                             </th>
-                            <th className="px-8 text-left font-medium text-(--text-lighter)">
+                            <th className=" text-left  px-8 py-4">
                                 Description
                             </th>
-                            <th className="px-8 font-medium text-(--text-lighter)">
-                                Value
-                            </th>
-                            <th className="px-8 text-right font-medium text-(--text-lighter)"></th>
+                            <th className="">Value</th>
+                            <th className="text-right"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -170,7 +168,7 @@ const FinanceList = ({
                                     key={i}
                                     className="border-t  border-(--border) hover:bg-(--bg-light)"
                                 >
-                                    <td className="w-12 px-4">
+                                    <td className="w-12 px-4 max-tablet:hidden">
                                         <div className="flex items-center justify-center">
                                             {val.value > 0 ? (
                                                 <ArrowRight />
@@ -179,7 +177,7 @@ const FinanceList = ({
                                             )}
                                         </div>
                                     </td>
-                                    <td className="w-1/6 px-8 text-(--text-muted)">
+                                    <td className="w-px whitespace-nowrap px-8 text-(--text-muted) max-tablet-sm:hidden">
                                         {new Date(val.date).toLocaleString(
                                             "en-GB",
                                             {
@@ -191,15 +189,28 @@ const FinanceList = ({
                                             },
                                         )}
                                     </td>
-                                    <td className="w-auto px-8 text-(--text)">
-                                        {val.description}
+                                    <td className="w-auto px-8 text-(--text) text-sm max-phone:px-2">
+                                        <div className="flex flex-col">
+                                            <span>{val.description}</span>
+                                            <span className="hidden text-(--text-muted) max-tablet-sm:block">
+                                                {new Date(
+                                                    val.date,
+                                                ).toLocaleString("en-GB", {
+                                                    day: "numeric",
+                                                    month: "short",
+                                                    year: "numeric",
+                                                    hour: "2-digit",
+                                                    minute: "2-digit",
+                                                })}
+                                            </span>
+                                        </div>
                                     </td>
                                     <td
-                                        className={`w-1/6 text-center px-8 ${val.value > 0 ? "text-(--success-text)" : "text-(--warning-text)"}`}
+                                        className={`w-fit whitespace-nowrap text-center px-8 ${val.value > 0 ? "text-(--success-text)" : "text-(--warning-text)"} max-phone:px-2`}
                                     >
                                         {val.value} {val.currency}
                                     </td>
-                                    <td className="w-auto p-4 text-right">
+                                    <td className="w-[1em] p-4 text-right">
                                         <button
                                             onClick={() =>
                                                 DeleteRecord(

@@ -11,7 +11,9 @@ const IncomeExpense = ({
     left?: boolean;
 }) => {
     return (
-        <article className={`w-[40%] card ${left ? "ml-auto" : ""}`}>
+        <article
+            className={`w-[50%] card ${left ? "ml-auto text-right" : ""} max-laptop:w-full max-laptop:text-left`}
+        >
             <h2 className="h4 text-(--text-lighter)">{title}</h2>
             <p
                 className={`h3 ${amount > 0 ? "text-(--success-text)" : "text-(--warning-text)"}`}
