@@ -45,10 +45,12 @@ const LoginForm = () => {
     return (
         <article
             id="login-form"
-            className="animate z-10 absolute left-1/2 top-1/2  -translate-x-1/2 -translate-y-1/2 w-120 h-fit bg-(--bg) rounded-2xl shadow-sm shadow-(color:--border) p-6 text-(--text) border-1  border-(--border)"
+            className="animate z-10 absolute left-1/2 top-1/2  -translate-x-1/2 -translate-y-1/2 w-120 h-fit bg-(--bg) rounded-2xl shadow-sm shadow-(color:--border) p-6 text-(--text) border  border-(--border) max-[492px]:w-11/12"
         >
             <form onSubmit={handleLogin}>
-                <h1 className="text-4xl font-bold ">Welcome Back</h1>
+                <h1 className="text-4xl font-bold ">
+                    Welcome<span className="max-[492px]:hidden"> Back</span>
+                </h1>
                 <h1 className="text-sm text-(--text-muted) mt-1 mb-7  font-semibold">
                     Sign in to continue
                 </h1>
@@ -77,14 +79,14 @@ const LoginForm = () => {
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
-                <div className=" flex w-100%">
-                    <div className="text-(--warning) ml-2 mt-6 flex items-center">
-                        {error}
+                <div className=" flex w-100% max-tablet:flex-col">
+                    <div className="text-(--warning-text) ml-2 mt-6 flex items-center">
+                        {error}sdasdadsa
                     </div>
                     <button
                         type="submit"
                         id="login-btn"
-                        className="primary-btn btn ml-auto mt-6"
+                        className="primary-btn btn ml-auto mt-6 max-tablet:ml-0 max-[492px]:w-full"
                     >
                         Log in
                     </button>
