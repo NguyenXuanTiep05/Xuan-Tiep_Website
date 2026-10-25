@@ -117,7 +117,7 @@ const FinanceView = () => {
         });
     };
 
-    const removeRecord = (id: number, type: string) => {
+    const removeRecord = (id: string, type: string) => {
         setData((prev) => {
             if (!prev) return prev;
 

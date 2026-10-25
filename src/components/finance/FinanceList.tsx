@@ -37,7 +37,7 @@ const ArrowRight = ({ size = 30, className = "" }) => (
 );
 const financeChanges: FinanceChangeDto[] = [
     {
-        recordId: 1,
+        recordId: "1",
         value: 2500,
         currency: "USD",
         description: "Monthly salary",
@@ -45,7 +45,7 @@ const financeChanges: FinanceChangeDto[] = [
         type: "income",
     },
     {
-        recordId: 2,
+        recordId: "2",
         value: 950,
         currency: "USD",
         description: "Rent",
@@ -53,7 +53,7 @@ const financeChanges: FinanceChangeDto[] = [
         type: "expense",
     },
     {
-        recordId: 3,
+        recordId: "3",
         value: 78.4,
         currency: "USD",
         description: "Groceries",
@@ -61,7 +61,7 @@ const financeChanges: FinanceChangeDto[] = [
         type: "expense",
     },
     {
-        recordId: 4,
+        recordId: "4",
         value: 12.99,
         currency: "USD",
         description: "Streaming subscription",
@@ -69,7 +69,7 @@ const financeChanges: FinanceChangeDto[] = [
         type: "expense",
     },
     {
-        recordId: 5,
+        recordId: "5",
         value: 400,
         currency: "USD",
         description: "Freelance project",
@@ -77,7 +77,7 @@ const financeChanges: FinanceChangeDto[] = [
         type: "income",
     },
     {
-        recordId: 6,
+        recordId: "6",
         value: 45,
         currency: "EUR",
         description: "Train ticket",
@@ -85,7 +85,7 @@ const financeChanges: FinanceChangeDto[] = [
         type: "expense",
     },
     {
-        recordId: 7,
+        recordId: "7",
         value: 130.5,
         currency: "USD",
         description: "Electricity bill",
@@ -93,7 +93,7 @@ const financeChanges: FinanceChangeDto[] = [
         type: "expense",
     },
     {
-        recordId: 8,
+        recordId: "8",
         value: 60,
         currency: "USD",
         description: "Dinner with friends",
@@ -101,7 +101,7 @@ const financeChanges: FinanceChangeDto[] = [
         type: "expense",
     },
     {
-        recordId: 9,
+        recordId: "9",
         value: 150,
         currency: "USD",
         description: "Dividends",
@@ -109,7 +109,7 @@ const financeChanges: FinanceChangeDto[] = [
         type: "income",
     },
     {
-        recordId: 10,
+        recordId: "10",
         value: 89.99,
         currency: "USD",
         description: "New headphones",
@@ -123,9 +123,9 @@ const FinanceList = ({
     onDelete,
 }: {
     History: FinanceChangeDto[] | null;
-    onDelete: (id: number, type: string) => void;
+    onDelete: (id: string, type: string) => void;
 }) => {
-    const DeleteRecord = async (id: number, type: string) => {
+    const DeleteRecord = async (id: string, type: string) => {
         try {
             await apiClient.post("finance/del_finance_rec", { id, type });
 
