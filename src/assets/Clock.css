@@ -5,6 +5,8 @@
 .focused svg {
     width: 100%;
     height: 100%;
+}
+svg {
     transition:
         width 300ms ease-in-out,
         height 400ms ease-in-out;

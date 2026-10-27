@@ -7,6 +7,7 @@ type ClockProps = {
     ContainerClassName?: string;
     svgClassName?: string;
     dTimeClassName?: string;
+    clockSize?: string;
     showDTime?: boolean;
     showFocus?: boolean;
 };
@@ -24,6 +25,7 @@ const Clock = ({
     ContainerClassName = "w-[200] h-[200]",
     svgClassName = "",
     dTimeClassName = "",
+    clockSize = "80%",
     showDTime = true,
     showFocus = true,
 }: ClockProps) => {
@@ -48,6 +50,9 @@ const Clock = ({
             setFocus(false);
         }
         setShowDTime_(focus);
+    };
+    const TimeToggle = () => {
+        setShowDTime_((prev: boolean) => !prev);
     };
 
     useEffect(() => {
@@ -77,17 +82,21 @@ const Clock = ({
         transform: `rotate(${deg}deg)`,
         transformOrigin: "50px 50px",
         transformBox: "view-box",
-        transition: "transform 300ms cubic-bezier(.07,.2,.26,.92)",
+        transition: "transform 50ms cubic-bezier(.07,.2,.26,.92)",
     });
 
     return (
-        <div id="clock-container" className={`relative ${ContainerClassName}`}>
+        <div
+            id="clock-container"
+            className={`relative flex flex-col justify-center items-center ${ContainerClassName}`}
+        >
             <svg
                 viewBox="0 0 100 100"
-                width={"100%"}
-                height={"80%"}
+                width={clockSize}
+                height={clockSize}
                 className={svgClassName}
                 role="img"
+                onDoubleClick={() => TimeToggle()}
             >
                 <circle
                     cx={50}
@@ -107,7 +116,7 @@ const Clock = ({
                             x2={50}
                             y2={isHour ? 12 : 8}
                             stroke="currentColor"
-                            strokeWidth={isHour ? 2 : 0.75}
+                            strokeWidth={isHour ? 1.6 : 0.75}
                             opacity={isHour ? 1 : 0.5}
                             transform={`rotate(${i * 6} 50 50)`}
                         />
@@ -117,30 +126,39 @@ const Clock = ({
                     <g>
                         <line
                             x1={50}
-                            y1={15}
+                            y1={18}
                             x2={50}
                             y2={50}
                             stroke="currentColor"
-                            strokeWidth={2}
+                            strokeWidth={1.6}
                             style={handStyle(angles.hour)}
                         ></line>
                         <line
                             x1={50}
-                            y1={10}
+                            y1={13}
                             x2={50}
                             y2={50}
                             stroke="currentColor"
-                            strokeWidth={1.5}
+                            strokeWidth={1.2}
                             style={handStyle(angles.minute)}
                         ></line>
                         <line
                             x1={50}
-                            y1={5}
+                            y1={8}
                             x2={50}
                             y2={50}
                             stroke="red"
                             strokeWidth={1}
                             style={handStyle(angles.second)}
+                        ></line>
+                        <line
+                            x1={50}
+                            y1={43}
+                            x2={50}
+                            y2={50}
+                            stroke="red"
+                            strokeWidth={1}
+                            style={handStyle(angles.second + 180)}
                         ></line>
                     </g>
                 )}
@@ -153,7 +171,9 @@ const Clock = ({
                 ></circle>
             </svg>
             {showDTime_ && (
-                <div className={`text-center w-full mt-4 ${dTimeClassName}`}>
+                <div
+                    className={`text-center w-full mt-4 select-none${dTimeClassName}`}
+                >
                     {time.toLocaleTimeString()}
                 </div>
             )}
