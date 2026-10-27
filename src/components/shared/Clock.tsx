@@ -148,7 +148,7 @@ const Clock = ({
                             x2={50}
                             y2={50}
                             stroke="red"
-                            strokeWidth={1}
+                            strokeWidth={0.75}
                             style={handStyle(angles.second)}
                         ></line>
                         <line
@@ -157,7 +157,7 @@ const Clock = ({
                             x2={50}
                             y2={50}
                             stroke="red"
-                            strokeWidth={1}
+                            strokeWidth={0.75}
                             style={handStyle(angles.second + 180)}
                         ></line>
                     </g>
