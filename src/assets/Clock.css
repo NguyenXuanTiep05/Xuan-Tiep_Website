@@ -1,6 +1,6 @@
 @reference "../app/global.css";
 .focused {
-    @apply fixed! w-full! h-full! left-0! top-0! z-50!;
+    @apply fixed! w-full! h-full! left-0! top-0! z-50! inset-0!;
 }
 .focused svg {
     width: 100%;
@@ -11,6 +11,6 @@
 }
 #clock-container {
     transition:
-        width 300ms ease-in-out,
-        height 300ms ease-in-out;
+        width 300ms ease-in-out 100ms,
+        height 300ms ease-in-out 100ms;
 }
