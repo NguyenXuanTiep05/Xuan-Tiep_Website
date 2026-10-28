@@ -63,7 +63,7 @@ const Clock = ({
       setTime(date);
       const seconds = date.getSeconds();
       const minutes = date.getMinutes();
-      const hours = date.getHours() % 12;
+      const hours = (date.getHours() % 12) + minutes / 60;
 
       setAngles((prev: HandAngles) => ({
         second: Forward(prev.second, seconds * 6),
