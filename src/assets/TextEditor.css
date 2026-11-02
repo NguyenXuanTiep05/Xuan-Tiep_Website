@@ -4,39 +4,8 @@
 @reference "../app/global.css";
 @source inline("text-4xl text-3xl text-2xl text-xl italic font-semibold tracking-tight text-heading font-mono text-sm bg-gray-800 text-pink-400 px-1.5 py-0.5 rounded dark:bg-gray-800 dark:text-pink-400 line-through");
 
-.code {
-    @apply my-4 font-mono text-sm bg-gray-800 text-pink-400 px-2 py-3 rounded overflow-x-auto;
-}
-.paragraph {
-    @apply text-sm leading-relaxed bg-(--bg) rounded text-gray-200 px-1.5 py-0.5 whitespace-pre-wrap;
-}
-.paragraph > p {
-    @apply wrap-break-word whitespace-pre-wrap;
-}
-
-.quote {
-    @apply my-6 px-4 tracking-tight border-l-4 border-(--text-muted);
-}
-
-.hr {
-    @apply my-6 h-1 border-none bg-(--text-muted);
-}
-
-.heading {
-    @apply my-8 border-b border-gray-700;
-}
-.heading.sm {
-    @apply my-3! border-none!;
-}
-
-ul {
-    @apply list-disc list-inside space-y-1 my-4;
-}
-
-ol {
-    @apply list-decimal list-inside space-y-1 my-4;
-}
-
-.links {
-    @apply underline;
+.vditor-ir__menu,
+.vditor-tip,
+.vditor-toolbar {
+  @apply hidden! no-scrollbar!;
 }
