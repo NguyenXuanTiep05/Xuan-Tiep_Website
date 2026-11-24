@@ -41,6 +41,7 @@ apiClient.interceptors.response.use(
     try {
       await refreshToken();
     } catch {
+      document.cookie = `callbackUrl=${encodeURIComponent(window.location.pathname)}; max-age=300; path=/; secure`;
       window.location.href = "/login";
       return Promise.reject(error);
     }

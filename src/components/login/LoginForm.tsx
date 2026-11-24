@@ -18,8 +18,15 @@ const LoginForm = () => {
     const [password, setPassword] = useState("");
     const [callbackUrl, setCallbackUrl] = useState(() => {
         if (typeof document === "undefined") return "/"; // SSR guard
-        const match = document.cookie.match(/callbackUrl=([^;]+)/);
-        return match ? decodeURIComponent(match[1]) : "/dashboard";
+        const match = document.cookie.match(/(?:^|; )callbackUrl=([^;]+)/);
+        if (!match) {
+            return "/dashboard";
+        }
+        const url = decodeURIComponent(match[1]);
+        if (!url.startsWith("/") || url.startsWith("//") || url.startsWith("/\\")) {
+            return "/dashboard";
+        }
+        return url;
     });
     const router = useRouter();
 
@@ -32,6 +39,7 @@ const LoginForm = () => {
         try {
             setError("Verifying...");
             await apiClient.post("/auth/login", { username, password });
+            document.cookie = "callbackUrl=; max-age=0; path=/";
 
             SidePanelAnimation();
             setTimeout(() => {

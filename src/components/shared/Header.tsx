@@ -20,7 +20,7 @@ const Header = () => {
                     router.replace("/login");
                 })
                 .catch(() => {
-                    setError("There was problem with logging you out");
+                    setError("Logout failed, you are still logged in.");
                 });
         } catch {
             setError(`Something went wrong`);
