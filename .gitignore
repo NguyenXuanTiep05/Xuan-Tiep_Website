@@ -20,6 +20,7 @@
 # production
 /build
 node_modules/
+/public/vditor
 
 # misc
 .DS_Store

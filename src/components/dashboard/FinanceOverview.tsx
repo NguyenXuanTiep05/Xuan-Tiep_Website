@@ -5,7 +5,6 @@ import FinanceSummaryDto from "@/models/finance/FinanceSummaryDto";
 import { apiClient } from "@/api/client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 
 import InfoTooltip from "../shared/InfoTooltip";
 import axios from "axios";
@@ -31,10 +30,13 @@ const FinanceOverview = () => {
         return () => controller.abort();
     }, []);
 
-    const income = data!.totalIncome;
-    const expenses = data!.totalExpenses;
+    const income = data?.totalIncome;
+    const expenses = data?.totalExpenses;
     const curr = data!.currency;
-    const procent = (Math.abs(expenses) * 100) / income;
+    const SpendBigger = Math.abs(expenses) > income;
+    const procent =
+        (Math.abs(SpendBigger ? income : expenses) * 100) /
+        Math.abs(SpendBigger ? expenses : income);
 
     return (
         <article className="w-[30%] card self-start">
@@ -43,35 +45,32 @@ const FinanceOverview = () => {
                     {err != "" ? <InfoTooltip text={err} /> : ""}
                     Finance Overview
                 </h2>
-                <Link
-                    href="/finance"
-                    className="ml-auto flex items-center font-bold text-(--text-muted)  text-xl hover:text-(--text) transition-colors"
-                >
-                    {">>"}
-                </Link>
             </div>
 
             <div className="mt-5 mb-1 w-full flex flex-row">
                 <h3 className="font-medium text-md">Spending</h3>
-                <h3 className="ml-auto font-medium text-md text-(--success)">
+                <h3 className="ml-auto font-medium text-md text-(--success-text)">
                     {expenses} {curr}
                 </h3>
             </div>
-            <div className="w-full h-4 bg-(--bg-light)">
+            <div className="w-full h-4 bg-(--bg-light) rounded-md overflow-hidden">
                 <div
-                    className="fill h-full bg-(--warning) rounded-md"
-                    style={{ width: `${procent}%` }}
+                    className="fill h-full bg-(--color-negative)"
+                    style={{ width: `${SpendBigger ? 100 : procent}%` }}
                 ></div>
             </div>
             <div className="mt-5 mb-1 w-full flex flex-row">
                 <h3 className="font-medium text-md">Income</h3>
-                <h3 className="ml-auto font-medium text-md text-(--success)">
+                <h3 className="ml-auto font-medium text-md text-(--success-text)">
                     {income} {curr}
                 </h3>
             </div>
 
-            <div className=" w-full h-4 bg-(--bg-light)">
-                <div className="fill w-full h-full bg-(--success) rounded-md"></div>
+            <div className=" w-full h-4 bg-(--bg-light) rounded-md overflow-hidden">
+                <div
+                    className="fill h-full bg-(--color-positive)"
+                    style={{ width: `${!SpendBigger ? 100 : procent}%` }}
+                ></div>
             </div>
         </article>
     );

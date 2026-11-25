@@ -1,5 +1,4 @@
 import FinanceView from "@/view/FinanceView";
-import Header from "@/components/shared/Header";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -17,10 +16,5 @@ export default async function FinancePage() {
 
     // if (res.status === 401) redirect("/login");
 
-    return (
-        <section className="w-full h-full pt-15 text-(--text)">
-            <Header />
-            <FinanceView />
-        </section>
-    );
+    return <FinanceView />;
 }

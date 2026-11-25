@@ -4,26 +4,34 @@ import "./global.css";
 import { Inter } from "next/font/google";
 
 const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
+    subsets: ["latin"],
+    display: "swap",
 });
 
-export const metadata : Metadata = {
-  title: "Xuan Tiep Website",
-  icons: {
-    icon: [
-      { url: "/dashboardWhite.png", media: "(prefers-color-scheme: dark)" },
-      { url: "/dashboardBlack.png", media: "(prefers-color-scheme: light)" },
-    ],
-  },
+export const metadata: Metadata = {
+    title: "Xuan Tiep Website",
+    icons: {
+        icon: [
+            {
+                url: "/dashboardWhite.png",
+                media: "(prefers-color-scheme: dark)",
+            },
+            {
+                url: "/dashboardBlack.png",
+                media: "(prefers-color-scheme: light)",
+            },
+        ],
+    },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en" className={inter.className}>
-      <body>
-        <main id="root">{children}</main>
-      </body>
-    </html>
-  );
+export default function RootLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    return (
+        <html lang="en" className={inter.className}>
+            <body>{children}</body>
+        </html>
+    );
 }

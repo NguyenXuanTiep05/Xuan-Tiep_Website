@@ -54,7 +54,7 @@ jobs:
                   echo "Extracting on server..."
                   ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i deploy_key \
                     ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_TAILSCALE_IP }} \
-                    "tar -xzf /tmp/deploy_bundle.tar.gz -C /var/www/mainpage && rm /tmp/deploy_bundle.tar.gz"
+                    "rm -rf /var/www/mainpage/.next && tar -xzf /tmp/deploy_bundle.tar.gz -C /var/www/mainpage && rm /tmp/deploy_bundle.tar.gz && pm2 restart mainpage"
 
                   echo "Deploy complete."
 

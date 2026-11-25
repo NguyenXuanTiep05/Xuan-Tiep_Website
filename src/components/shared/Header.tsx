@@ -2,48 +2,71 @@
 import { useState } from "react";
 import Link from "next/link";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import "@/assets/Header.css";
+import { apiClient } from "@/api/client";
 
 const Header = () => {
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
+    const pathname = usePathname();
+    const isMainPage = pathname !== "/";
 
     const LogOut = async () => {
         try {
-            const response = await fetch(
-                "https://xuan-tiep.com/api/auth/logout",
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    credentials: "include",
-                },
-            );
-
-            if (!response.ok) {
-                setError("There was problem with logging you out");
-                return;
-            }
-            router.replace("/login");
+            apiClient
+                .post("/auth/logout", {})
+                .then(() => {
+                    router.replace("/login");
+                })
+                .catch(() => {
+                    setError("Logout failed, you are still logged in.");
+                });
         } catch {
             setError(`Something went wrong`);
         }
     };
+    const tabs = [
+        // { label: "Resume", href: "/" },
+        { label: "Finance", href: "/finance" },
+        { label: "Notes", href: "/notes" },
+        { label: "Tasks", href: "/tasks" },
+    ];
 
     return (
-        <nav className="absolute top-0 w-full h-15 border-b border-(--border) flex items-center pl-30 pr-14 z-50">
+        <nav className="absolute top-0 w-full h-(--spacing-header) border-b border-(--border) flex items-center px-14 z-50 bg-(--bg-dark) max-tablet:px-4 max-tablet:h-19 max-tablet:items-baseline max-tablet:pt-3 ">
             <Link
-                href="/"
-                className="text-3xl font-bold hover:-translate-y-0.5 transition-transform duration-100 text-(--text) "
+                href={!isMainPage ? "/" : "/dashboard"}
+                className="absolute translate-x-2 text-2xl font-bold hover:-translate-y-0.5 transition-transform duration-100 text-(--text) "
             >
                 <h1>Xuan Tiep</h1>
             </Link>
             <span>{error}</span>
-            <button
-                onClick={() => LogOut()}
-                className="ml-auto text-(--text-muted) cursor-pointer hover:text-(--text) hover:font-bold transition-all duration-150"
-            >
-                Log out
-            </button>
+            {isMainPage ? (
+                <>
+                    <div className="ml-auto flex flex-row justify-center items-center gap-8 w-auto select-none max-tablet:gap-3 max-tablet:absolute max-tablet:left-5.5 max-tablet:top-12 ">
+                        {tabs.map((tab) => (
+                            <Link
+                                key={tab.href}
+                                href={tab.href}
+                                className={
+                                    pathname === tab.href
+                                        ? "header_link active"
+                                        : "header_link"
+                                }
+                            >
+                                {tab.label}
+                            </Link>
+                        ))}
+                    </div>
+                    <button
+                        onClick={() => LogOut()}
+                        className="text-base ml-auto text-(--text-muted) cursor-pointer hover:text-(--text) transition-all duration-150"
+                    >
+                        Log out
+                    </button>
+                </>
+            ) : null}
         </nav>
     );
 };
