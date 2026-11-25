@@ -4,13 +4,11 @@ import { apiClient } from "@/api/client";
 import FinanceList from "@/components/finance/FinanceList";
 import FinanceValueForm from "@/components/finance/FinanceValueForm";
 import IncomeExpense from "@/components/finance/IncomeExpense";
-import Balance from "@/components/finance/Balance";
 import FinanceOverviewDto from "@/models/finance/FinanceOverviewDto";
 import FinanceChangeDto from "@/models/finance/FinanceChangeDto";
 import "@/assets/FinanceOverview.css";
 import axios from "axios";
 
-//test
 // const incomeNames = [
 //     "Salary",
 //     "Freelance project",
@@ -33,17 +31,17 @@ import axios from "axios";
 //     "Phone bill",
 //     "Coffee",
 // ];
-
+//
 // function createMockOverview(count = 60): FinanceOverviewDto {
 //     const income: FinanceChangeDto[] = [];
 //     const expenses: FinanceChangeDto[] = [];
-
+//
 //     for (let i = 1; i <= count; i++) {
 //         const isIncome = i % 4 === 0; // every 4th record is income
 //         const names = isIncome ? incomeNames : expenseNames;
 //         const month = String((i % 12) + 1).padStart(2, "0");
 //         const day = String((i % 28) + 1).padStart(2, "0");
-
+//
 //         const item: FinanceChangeDto = {
 //             recordId: i,
 //             value: isIncome
@@ -54,10 +52,10 @@ import axios from "axios";
 //             date: `2026-${month}-${day}`,
 //             type: isIncome ? "income" : "expense",
 //         };
-
+//
 //         (isIncome ? income : expenses).push(item);
 //     }
-
+//
 //     return {
 //         income,
 //         expenses,
@@ -72,6 +70,8 @@ import axios from "axios";
 const FinanceView = () => {
     const [data, setData] = useState<FinanceOverviewDto>();
     const [err, setErr] = useState("");
+    if (err) {
+    }
 
     useEffect(() => {
         const controller = new AbortController();
@@ -150,24 +150,15 @@ const FinanceView = () => {
     return (
         <div className="slide-in content-wrapper flex gap-8 max-tablet:flex-col max-tablet:overflow-scroll">
             <div className="flex-1 max-w-[30%] flex flex-col gap-4 max-tablet:max-w-full max-tablet:flex-none">
-                <div className="w-full min-h-[27%] gap-2 flex flex-col">
-                    <Balance
-                        amount={
+                <div className="w-full min-h-[22%] gap-2 flex flex-col">
+                    <IncomeExpense
+                        amounts={[
                             (data?.summary.totalIncome ?? 0) +
-                            (data?.summary.totalExpenses ?? 0)
-                        }
+                                (data?.summary.totalExpenses ?? 0),
+                            data?.summary.totalIncome ?? 0,
+                            data?.summary.totalExpenses ?? 0,
+                        ]}
                     />
-                    <div className="flex flex-row gap-2 mt-auto justify-center max-laptop:flex-col max-tablet:flex-row">
-                        <IncomeExpense
-                            title="Income"
-                            amount={data?.summary.totalIncome ?? 0}
-                        />
-                        <IncomeExpense
-                            title="Expenses"
-                            amount={data?.summary.totalExpenses ?? 0}
-                            left={true}
-                        />
-                    </div>
                 </div>
                 <div className="flex flex-10 border-dashed card max-tablet:h-80 max-tablet:flex-none">
                     <h1 className="text-3xl m-auto">WIP: Pie chart here</h1>
